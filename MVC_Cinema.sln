@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "MVC_Cinema\WebApp.csproj", "{7D4FADB2-795B-4118-9B92-48B57BE97E16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "Core\BusinessLogic.csproj", "{941A50B3-8C16-47B1-A7C3-6BB08FD079CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "Infrastructure\DataAccess.csproj", "{9C6E5411-5081-42B2-9FD9-F4DF5B89D387}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D4FADB2-795B-4118-9B92-48B57BE97E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4FADB2-795B-4118-9B92-48B57BE97E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4FADB2-795B-4118-9B92-48B57BE97E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4FADB2-795B-4118-9B92-48B57BE97E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{941A50B3-8C16-47B1-A7C3-6BB08FD079CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{941A50B3-8C16-47B1-A7C3-6BB08FD079CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{941A50B3-8C16-47B1-A7C3-6BB08FD079CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{941A50B3-8C16-47B1-A7C3-6BB08FD079CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6E5411-5081-42B2-9FD9-F4DF5B89D387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6E5411-5081-42B2-9FD9-F4DF5B89D387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6E5411-5081-42B2-9FD9-F4DF5B89D387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6E5411-5081-42B2-9FD9-F4DF5B89D387}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B6E22DA-C875-45BA-A098-2B4260E55A33}
+	EndGlobalSection
+EndGlobal
