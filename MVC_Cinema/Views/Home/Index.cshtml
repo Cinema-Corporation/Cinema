@@ -1,4 +1,4 @@
-﻿@model List<Cinema.Models.User>
+﻿@model List<DataAccess.Entities.User>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,7 +6,7 @@
 
 @foreach (var user in Model)
 {
-    <p>@user.IdUser</p>
+    <p>@user.UserId</p>
     <p>@user.Name</p>
     <p>@user.Email</p>
 }

@@ -1,8 +1,8 @@
-namespace Cinema.Models
+namespace DataAccess.Entities
 {
     public class User
     {
-        public int IdUser { get; set; }
+        public int UserId { get; set; }
         public required string Name { get; set; }
         public required string Email { get; set; }
     }

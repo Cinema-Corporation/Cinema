@@ -1,8 +1,10 @@
 using System.Diagnostics;
-using Cinema.Models;
 using Microsoft.AspNetCore.Mvc;
+using DataAccess.Data;
+using DataAccess.Entities;
+using WebApp.Models;
 
-namespace Cinema.Controllers;
+namespace WebApp.Controllers;
 
 public class HomeController : Controller
 {

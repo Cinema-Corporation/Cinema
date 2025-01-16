@@ -1,4 +1,4 @@
-using Cinema.Models;
+using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 
