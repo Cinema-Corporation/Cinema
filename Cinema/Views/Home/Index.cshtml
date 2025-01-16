@@ -1,0 +1,14 @@
+﻿@model List<Cinema.Models.User>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var user in Model)
+{
+    <p>@user.IdUser</p>
+    <p>@user.Name</p>
+    <p>@user.Email</p>
+}
+
+
