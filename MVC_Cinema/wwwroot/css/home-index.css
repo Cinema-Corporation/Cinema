@@ -1,0 +1,16 @@
+﻿.fullscreen-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.row-cols-1 > .col {
+    margin: 0 auto;
+}
+
+.card {
+    height: 100%;
+}
