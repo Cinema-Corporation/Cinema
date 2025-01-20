@@ -1,0 +1,39 @@
+﻿*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --default-background-color: #831010;
+    --color-accent: #db0000;
+    --nav-background-color: #000000;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /*background-color: var(--default-background-color);*/
+}
+
+main {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    /*background-color: var(--default-background-color);*/
+}
+
+.flex-equal > * {
+    flex: 1;
+}
+
+@media (min-width: 768px) {
+    .flex-md-equal > * {
+        flex: 1;
+    }
+}
