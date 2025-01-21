@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
-using DataAccess.Entities;
 using WebApp.Models;
 
 namespace WebApp.Controllers;

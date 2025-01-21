@@ -1,8 +1,6 @@
-using DataAccess.Interfaces;
+namespace BusinessLogic.DTOs;
 
-namespace DataAccess.Entities;
-
-public class User : IEntity
+public class UserDTO
 {
     public int Id { get; set; }
     public required string Name { get; set; }
