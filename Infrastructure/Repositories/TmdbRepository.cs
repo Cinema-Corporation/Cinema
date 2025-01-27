@@ -1,5 +1,4 @@
-﻿using BusinessLogic.DTOs;
-using DataAccess.Entities;
+﻿using DataAccess.Entities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -14,7 +13,7 @@ namespace DataAccess.Repositories
             _apiKey = configuration["apiKey"];
         }
 
-        public async Task<List<MovieDTO>> GetLatestMoviesAsync()
+        public async Task<List<MovieSearchItem>> GetLatestMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&language=uk&page=1";
 
@@ -29,7 +28,7 @@ namespace DataAccess.Repositories
             var json = await response.Content.ReadAsStringAsync();
             var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(json);
 
-            return searchResult.Results.Select(movie => new MovieDTO
+            return searchResult.Results.Select(movie => new MovieSearchItem
             {
                 Title = movie.Title,
                 PosterPath = movie.PosterPath

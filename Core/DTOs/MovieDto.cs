@@ -1,8 +1,9 @@
-﻿namespace BusinessLogic.DTOs
+namespace BusinessLogic.DTOs;
+
+public class MovieDTO
 {
-    public class MovieDTO
-    {
-        public string Title { get; set; } 
-        public string PosterPath { get; set; }
-    }
+    public int MovieId { get; set; }
+    public string? Name { get; set; }
+    public int GenreId { get; set; }
+    public int Duration { get; set; }
 }

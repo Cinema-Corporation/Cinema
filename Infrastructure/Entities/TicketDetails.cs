@@ -3,10 +3,10 @@ using DataAccess.Interfaces;
 
 namespace DataAccess.Entities;
 
-public class User : IEntity
+public class TicketDetails : IEntity
 {
-    [Column("UserId")]
+    [Column("TicketId")]
     public int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Email { get; set; }
+    public decimal Price { get; set; }
+    public int PlaceId { get; set; }
 }

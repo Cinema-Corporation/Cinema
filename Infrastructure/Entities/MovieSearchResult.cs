@@ -5,6 +5,6 @@ namespace DataAccess.Entities
     public class MovieSearchResult
     {
         [JsonProperty("results")]
-        public List<MovieSearchItem> Results { get; set; }
+        public List<MovieSearchItem> Results { get; set; } = [];
     }
 }
