@@ -18,8 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var Users = _context.Users.ToList();
-        return View(Users);
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

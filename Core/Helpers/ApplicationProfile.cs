@@ -10,9 +10,7 @@ public class ApplicationProfile : Profile
         CreateMap<MovieDTO, Movie>().ReverseMap();
         CreateMap<GenreDTO, Genre>().ReverseMap();
         CreateMap<SessionDTO, Session>().ReverseMap();
-        CreateMap<TicketDetailsDTO, TicketDetails>().ReverseMap();
         CreateMap<TicketDTO, Ticket>().ReverseMap();
-        CreateMap<PaymentDTO, Payment>().ReverseMap();
         CreateMap<HallDTO, Hall>().ReverseMap();
         CreateMap<MovieSearchDTO, MovieSearchItem>().ReverseMap();
         CreateMap<UserDTO, User>().ReverseMap();
