@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
+
 namespace DataAccess.Data;
 
 public class AppDbContext : DbContext
@@ -16,7 +16,6 @@ public class AppDbContext : DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -28,16 +27,5 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new SessionConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var rootPath = Directory.GetParent(Environment.CurrentDirectory)?.FullName;
-        var filePath = Path.Combine(rootPath!, "Infrastructure", "Data", "config.json");
-        var json = File.ReadAllText(filePath);
-        var config = JsonConvert.DeserializeObject<ConfigStructure>(json) ?? throw new InvalidDataException("Config deserialization failed.");
-
-        var serverVersion = new MySqlServerVersion(new Version(8,0,36));
-        optionsBuilder.UseMySql(config.ConnectionString, serverVersion);
     }
 }

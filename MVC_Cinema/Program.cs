@@ -1,14 +1,25 @@
-using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
+using BusinessLogic;
+using DataAccess;
+using DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var serverVersion = new MySqlServerVersion(new Version(8,0,36));
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseMySql(builder.Configuration.GetConnectionString("DatabaseConnection")!, serverVersion));
+var rootPath = Directory.GetParent(Environment.CurrentDirectory)?.FullName;
+var filePath = Path.Combine(rootPath!, "Infrastructure", "Data", "config.json");
+var json = File.ReadAllText(filePath);
+var config = JsonConvert.DeserializeObject<ConfigStructure>(json) ?? throw new InvalidDataException("Config deserialization failed.");
+var serverVersion = new MySqlServerVersion(new Version(8,0,40));
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext(config.ConnectionString!, serverVersion);
+
+builder.Services.AddRepository();
+
+builder.Services.AddAutoMapper();
+
+builder.Services.AddValidators();
 
 var app = builder.Build();
 

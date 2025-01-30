@@ -5,7 +5,7 @@ namespace DataAccess.Entities;
 
 public class Placement : IEntity
 {
-    [Column("PlacementId")]
+    [Column("PlaceId")]
     public int Id { get; set; }
     public int Row { get; set; }
     public int Column { get; set; }

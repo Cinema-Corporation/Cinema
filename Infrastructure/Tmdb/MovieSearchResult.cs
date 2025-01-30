@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DataAccess.Entities
+namespace DataAccess.Tmdb
 {
     public class MovieSearchResult
     {

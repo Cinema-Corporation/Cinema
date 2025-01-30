@@ -1,4 +1,4 @@
-﻿using DataAccess.Entities;
+﻿using DataAccess.Tmdb;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
