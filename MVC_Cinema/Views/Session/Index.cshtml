@@ -1,0 +1,12 @@
+@model List<SessionDTO>
+
+@foreach (var item in Model)
+{
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h class="btn btn-primary">@item.MovieId</h>
+            </div>
+        </div>
+    </div>
+}

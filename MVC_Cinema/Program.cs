@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using BusinessLogic;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
 using DataAccess;
 using DataAccess.Data;
 
@@ -16,6 +18,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext(config.ConnectionString!, serverVersion);
 
 builder.Services.AddRepository();
+
+builder.Services.AddScoped<ISessionService, SessionService>();
 
 builder.Services.AddAutoMapper();
 
