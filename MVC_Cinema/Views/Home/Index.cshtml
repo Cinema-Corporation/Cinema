@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<MovieViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 <!-- HERO SECTION-->
@@ -26,53 +28,30 @@
             <p class="text-muted">Get ready for these upcoming releases</p>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            @* This is an example. We'll use Foreach and pull images from the database *@
-            <!-- Card 1 -->
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="https://img-assets.drafthouse.com/images/shows/heart-eyes/HEART-EYES_sp-poster.jpg?ixlib=js-2.3.2&amp;auto=compress&amp;fit=clip&amp;q=80&amp;ar=1024%3A691&amp;w=282"
-                         class="card-img-top"
-                         alt="Coming Soon 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Upcoming Movie 1</h5>
-                        <p class="card-text text-muted">A spectacular journey awaits. Don’t miss its premiere!</p>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var movie in Model)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <img src="https://image.tmdb.org/t/p/w500/@(movie.PosterPath)"
+                                 class="card-img-top"
+                                 alt="@movie.Title">
+                            <div class="card-body">
+                                <h5 class="card-title">@movie.Title</h5>
+                                <p class="card-text text-muted">Check out this blockbuster!</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-outline-primary w-100">Details</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-outline-primary w-100">Details</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="https://img-assets.drafthouse.com/images/shows/paddington-in-peru/PADDINGTON-IN-PERU_sp-poster.jpg?ixlib=js-2.3.2&amp;auto=compress&amp;fit=clip&amp;q=80&amp;ar=1024%3A691&amp;w=282"
-                         class="card-img-top"
-                         alt="Coming Soon 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Upcoming Movie 2</h5>
-                        <p class="card-text text-muted">The sequel to the biggest hit of the year is almost here.</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-outline-primary w-100">Details</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="https://img-assets.drafthouse.com/images/shows/flight-risk/FLIGHT-RISK_sp-poster.jpg?ixlib=js-2.3.2&auto=compress&fit=clip&q=80&ar=1024%3A691&w=282"
-                         class="card-img-top"
-                         alt="Coming Soon 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Upcoming Movie 3</h5>
-                        <p class="card-text text-muted">Be the first to see this highly anticipated release.</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-outline-primary w-100">Details</button>
-                    </div>
-                </div>
-            </div>
-            @* This is an example. We'll use Foreach and pull images from the database *@
+                }
+            }
+            else
+            {
+                <p class="text-center text-muted">No movies available at the moment.</p>
+            }
         </div>
     </div>
 </div>

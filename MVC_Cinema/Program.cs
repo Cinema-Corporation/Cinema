@@ -3,19 +3,24 @@ using Newtonsoft.Json;
 using BusinessLogic;
 using DataAccess;
 using DataAccess.Data;
+using DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var rootPath = Directory.GetParent(Environment.CurrentDirectory)?.FullName;
 var filePath = Path.Combine(rootPath!, "Infrastructure", "Data", "config.json");
 var json = File.ReadAllText(filePath);
 var config = JsonConvert.DeserializeObject<ConfigStructure>(json) ?? throw new InvalidDataException("Config deserialization failed.");
-var serverVersion = new MySqlServerVersion(new Version(8,0,40));
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 40));
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext(config.ConnectionString!, serverVersion);
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(config.ConnectionString!, serverVersion));
 
 builder.Services.AddRepository();
+
+builder.Services.AddTmdbRepository(config.ApiKey);
 
 builder.Services.AddAutoMapper();
 
@@ -31,9 +36,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
