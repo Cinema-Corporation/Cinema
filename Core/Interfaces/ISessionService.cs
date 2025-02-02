@@ -4,5 +4,6 @@ namespace BusinessLogic.Interfaces;
 
 public interface ISessionService
 {
-    List<SessionDTO> GetAllSessions();
+    IEnumerable<SessionDTO> GetActiveSessions();
+    IEnumerable<SessionWithMovieDTO> GetActiveSessionsWithMovies();
 }
