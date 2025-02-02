@@ -20,6 +20,7 @@ builder.Services.AddDbContext(config.ConnectionString!, serverVersion);
 builder.Services.AddRepository();
 
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddAutoMapper();
 
