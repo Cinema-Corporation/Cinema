@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using BusinessLogic;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
 using DataAccess;
 using DataAccess.Data;
 using DataAccess.Repositories;
@@ -19,6 +21,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(config.ConnectionString!, serverVersion));
 
 builder.Services.AddRepository();
+
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddTmdbRepository(config.ApiKey);
 
