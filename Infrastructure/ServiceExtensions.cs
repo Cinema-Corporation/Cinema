@@ -19,4 +19,13 @@ public static class ServiceExtensions
     {
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     }
+
+    public static void AddTmdbRepository(this IServiceCollection services, string apiKey)
+    {
+        services.AddScoped<TmdbRepository>(provider =>
+        {
+            var context = provider.GetRequiredService<AppDbContext>();
+            return new TmdbRepository(apiKey, context);
+        });
+    }
 }

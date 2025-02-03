@@ -12,7 +12,7 @@ namespace WebApp.Controllers
             _tmdbRepository = tmdbRepository;
         }
 
-        public async Task<IActionResult> LatestMovies()
+        public async Task<IActionResult> Index()
         {
             var movies = await _tmdbRepository.GetLatestMoviesAsync();
             return View(movies); 
