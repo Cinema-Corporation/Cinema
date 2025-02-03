@@ -1,4 +1,5 @@
 {
-    "apiKey": "",
-    "connectionString": ""
+    "apiKey": "b2d235c471dc7bf84c119324454664a6",
+    "connectionString": "server=sql.freedb.tech;user=freedb_developer;password=$6drtB4dVY&*brN;database=freedb_cinema"
+
 }
