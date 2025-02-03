@@ -7,6 +7,7 @@
 
 /Infrastructure/Data/config.json
 
+
 # User-specific files
 *.suo
 *.user
