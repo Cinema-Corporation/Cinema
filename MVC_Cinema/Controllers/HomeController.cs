@@ -4,7 +4,7 @@ using DataAccess.Data;
 using WebApp.ViewModels;
 using DataAccess.Repositories;
 using DataAccess.Tmdb;
-
+using WebApp.Models;
 namespace WebApp.Controllers;
 
 public class HomeController : Controller
