@@ -3,9 +3,9 @@ using DataAccess.Interfaces;
 
 namespace DataAccess.Entities;
 
-public class User : IEntity
+public class MovieGenre : IEntity
 {
-    [Column("UserId")]
+    [Column("MovieId")]
     public int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Email { get; set; }
+    public int Genre { get; set; }
+}
