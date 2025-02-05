@@ -1,0 +1,44 @@
+@model DataAccess.Entities.Movie
+
+@{
+    ViewData["Title"] = "Add Movie";
+}
+<form asp-action="AddMovie" asp-controller="Admin">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" required/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" required/>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Duration" class="control-label"></label>
+            <input asp-for="Duration" class="form-control" type="number" required min="1"/>
+            <span asp-validation-for="Duration" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Rating" class="control-label"></label>
+            <input asp-for="Rating" class="form-control" type="number" step="0.1" required min="0" max="10"/>
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="PosterUrl" class="control-label"></label>
+            <input asp-for="PosterUrl" class="form-control" required/>
+            <span asp-validation-for="PosterUrl" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="TrailerUrl" class="control-label"></label>
+            <input asp-for="TrailerUrl" class="form-control" required/>
+            <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

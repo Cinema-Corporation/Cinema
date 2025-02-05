@@ -1,0 +1,17 @@
+@model WebApp.ViewModels.SessionMovieViewModel
+@{
+    ViewData["Title"] = "Sessions";
+}
+
+<div class="row">
+    @foreach (var session in Model.Sessions)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <h1>@Model.Movies.FirstOrDefault(m => m.Id == session.MovieId)?.Name</h1>
+                <p>@session.TimeStart</p>
+                <p>@session.TimeEnd</p>
+            </div>
+        </div>
+    }
+</div>

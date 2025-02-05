@@ -2,8 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using DataAccess.Tmdb;
 using WebApp.Models;
+using WebApp.ViewModels;
 namespace WebApp.Controllers;
 
 public class HomeController : Controller

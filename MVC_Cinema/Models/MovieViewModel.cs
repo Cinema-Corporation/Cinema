@@ -1,6 +1,4 @@
-﻿using DataAccess.Tmdb;
-
-namespace WebApp.Models
+﻿namespace WebApp.Models
 {
     public class MovieViewModel
     {
