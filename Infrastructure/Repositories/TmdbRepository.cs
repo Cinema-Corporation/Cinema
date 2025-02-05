@@ -2,8 +2,6 @@
 using DataAccess.Entities;
 using DataAccess.Interfaces;
 using DataAccess.Tmdb;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace DataAccess.Repositories
