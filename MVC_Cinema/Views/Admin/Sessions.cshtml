@@ -11,6 +11,7 @@
                 <h1>@Model.Movies.FirstOrDefault(m => m.Id == session.MovieId)?.Name</h1>
                 <p>@session.TimeStart</p>
                 <p>@session.TimeEnd</p>
+                <a class="btn btn-primary" asp-action="Session" asp-controller="Admin" asp-route-SessionId="@session.Id">Edit</a>
             </div>
         </div>
     }

@@ -65,14 +65,27 @@ public class AdminController : Controller
         };
         return View(MovieSessions);
     }
-    public IActionResult EditSession(int SessionId)
+    public IActionResult Session(int SessionId)
     {
+        var movies = _context.Movies.ToList();
         var session = _context.Sessions.Find(SessionId);
-        return View(session);
+        var movieSessions = new EditSessionViewModel(movies, session);
+        return View("EditSession",movieSessions);
     }
     public IActionResult EditSession(Session session)
     {
         _context.Sessions.Update(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
+    }
+    public IActionResult DeleteSession(int SessionId)
+    {
+        var session = _context.Sessions.Find(SessionId);
+        if(session == null)
+        {
+            return NotFound();
+        }
+        _context.Sessions.Remove(session);
         _context.SaveChanges();
         return RedirectToAction("Sessions");
     }
