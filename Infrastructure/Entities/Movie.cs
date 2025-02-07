@@ -1,7 +1,6 @@
+using DataAccess.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataAccess.Interfaces;
-
 namespace DataAccess.Entities;
 
 public class Movie : IEntity

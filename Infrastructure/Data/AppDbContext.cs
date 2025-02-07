@@ -1,7 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
-
+using Microsoft.EntityFrameworkCore;
 namespace DataAccess.Data;
 
 public class AppDbContext : DbContext

@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Interfaces;
-
+using Microsoft.AspNetCore.Mvc;
 namespace WebApp.Controllers;
 
 public class SessionController : Controller

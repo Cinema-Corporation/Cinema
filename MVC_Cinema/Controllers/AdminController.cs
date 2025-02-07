@@ -1,8 +1,8 @@
+using DataAccess.Data;
+using DataAccess.Entities;
+using WebApp.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DataAccess.Data;
-using WebApp.ViewModels;
-using DataAccess.Entities;
 namespace WebApp.Controllers;
 
 public class AdminController : Controller
@@ -19,17 +19,20 @@ public class AdminController : Controller
         var movies = _context.Movies.ToList();
         return View(movies);
     }
+
     public IActionResult SelectMovie(int MovieId)
     {
         var movie = _context.Movies.Find(MovieId);
         return View("EditMovie", movie);
     }
+
     public IActionResult EditMovie(Movie movie)
     {
         _context.Movies.Update(movie);
         _context.SaveChanges();
         return RedirectToAction("Movies");
     }
+
     public IActionResult DeleteMovie(int MovieId)
     {
         var movie = _context.Movies.Find(MovieId);
@@ -41,13 +44,15 @@ public class AdminController : Controller
         _context.SaveChanges();
         return RedirectToAction("Movies");
     }
+
     public IActionResult Movie()
     {
         return View("AddMovie");
     }
+
     public IActionResult AddMovie(Movie movie)
     {
-        if(movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0  || movie.TrailerUrl == null || movie.Rating == 0) 
+        if (movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0 || movie.TrailerUrl == null || movie.Rating == 0) 
         {
             return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
         }
@@ -65,6 +70,7 @@ public class AdminController : Controller
         };
         return View(MovieSessions);
     }
+
     public IActionResult Session(int SessionId)
     {
         var movies = _context.Movies.ToList();
@@ -72,12 +78,14 @@ public class AdminController : Controller
         var movieSessions = new EditSessionViewModel(movies, session);
         return View("EditSession",movieSessions);
     }
+
     public IActionResult EditSession(Session session)
     {
         _context.Sessions.Update(session);
         _context.SaveChanges();
         return RedirectToAction("Sessions");
     }
+
     public IActionResult DeleteSession(int SessionId)
     {
         var session = _context.Sessions.Find(SessionId);

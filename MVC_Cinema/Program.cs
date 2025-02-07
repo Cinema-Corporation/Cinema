@@ -24,7 +24,7 @@ builder.Services.AddRepository();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
-builder.Services.AddTmdbRepository(config.ApiKey);
+builder.Services.AddTmdbRepository(config.ApiKey!);
 
 builder.Services.AddAutoMapper();
 

@@ -1,6 +1,6 @@
-using DataAccess.Entities;
 using BusinessLogic.DTOs;
 using BusinessLogic.Interfaces;
+using DataAccess.Entities;
 using DataAccess.Interfaces;
 using AutoMapper;
 
@@ -10,7 +10,6 @@ public class SessionService : ISessionService
 {
     private readonly IMapper _mapper;
     private readonly IRepository<Session> _sessionRepository;
-
     private readonly IMovieService _movieService;
 
     public SessionService(IMapper mapper,

@@ -1,21 +1,27 @@
-﻿using DataAccess.Repositories;
+﻿using DataAccess.Data;
+using WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+namespace WebApp.Controllers;
 
-namespace WebApp.Controllers
+public class MoviesController : Controller
 {
-    public class MoviesController : Controller
+    private readonly AppDbContext _context;
+
+    public MoviesController(AppDbContext context)
     {
-        private readonly TmdbRepository _tmdbRepository;
+        _context = context;
+    }
 
-        public MoviesController(TmdbRepository tmdbRepository)
+    public IActionResult Index()
+    {
+        var movies = _context.Movies.ToList();
+        var movieViewModels = movies.Select(movie => new MovieViewModel
         {
-            _tmdbRepository = tmdbRepository;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var movies = await _tmdbRepository.GetLatestMoviesAsync();
-            return View(movies); 
-        }
+            Title = movie.Name,
+            Description = movie.Description?.Length > 0 ? movie.Description : "No description available.",
+            PosterUrl = movie.PosterUrl
+        }).ToList();
+        
+        return View(movieViewModels);
     }
 }

@@ -1,31 +1,29 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
-using DataAccess.Repositories;
 using WebApp.Models;
 using WebApp.ViewModels;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 namespace WebApp.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly AppDbContext _context;
-    private readonly TmdbRepository _tmdbRepository;
 
-    public HomeController(ILogger<HomeController> logger, AppDbContext context, TmdbRepository tmdbRepository)
+    public HomeController(ILogger<HomeController> logger, AppDbContext context)
     {
         _logger = logger;
         _context = context;
-        _tmdbRepository = tmdbRepository;
     }
 
-    public  IActionResult Index()
+    public IActionResult Index()
     {
         var movies = _context.Movies.ToList();
         var movieViewModels = movies.Select(movie => new MovieViewModel
         {
             Title = movie.Name,
-            PosterPath = movie.PosterUrl
+            Description = movie.Description,
+            PosterUrl = movie.PosterUrl
         }).ToList();
 
         return View(movieViewModels);

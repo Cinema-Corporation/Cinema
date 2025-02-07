@@ -1,31 +1,15 @@
 ﻿@model List<WebApp.Models.MovieViewModel>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Movies";
 }
-<!-- HERO SECTION-->
-<div class="bg-dark text-white position-relative hero-section">
-    <div class="h-100 w-100" style="background-color: rgba(0, 0, 0, 0.4);">
-        <div class="container h-100 d-flex flex-column justify-content-center align-items-center text-center">
-            <h1 class="display-2 fw-bold">Cinema</h1>
-            <p class="lead fs-4 mt-3">
-                Immerse yourself in the latest blockbusters<br>
-                and beloved classics, all in one place!
-            </p>
-            <div class="mt-4">
-                <button class="btn btn-primary btn-lg me-2">View Showtimes</button>
-                <button class="btn btn-outline-light btn-lg">Buy Tickets</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- "COMING SOON" SECTION
+<!-- MOVIES SECTION -->
 <div class="bg-light py-5 coming-soon-section">
     <div class="container">
         <div class="row text-center mb-4">
-            <h2 class="fw-bold">Coming Soon</h2>
-            <p class="text-muted">Get ready for these upcoming releases</p>
+            <h2 class="fw-bold">Available Movies</h2>
+            <p class="text-muted">Buy tickets now!</p>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             @if (Model != null && Model.Any())
@@ -39,7 +23,14 @@
                                  alt="@movie.Title">
                             <div class="card-body">
                                 <h5 class="card-title">@movie.Title</h5>
-                                <p class="card-text text-muted">Check out this blockbuster!</p>
+                                @if (!string.IsNullOrWhiteSpace(movie.Description) && movie.Description.Length > 130)
+                                {
+                                    <p class="card-text text-muted small">@movie.Description.Substring(0, 130).TrimEnd()...</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text text-muted small">@movie.Description</p>
+                                }
                             </div>
                             <div class="card-footer d-flex text-center">
                                 <button class="btn btn-outline-primary w-100 mx-3">Details</button>
@@ -55,7 +46,7 @@
             }
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- CONTACT / FOOTER SECTION -->
 <div class="container-fluid bg-dark text-white py-5">

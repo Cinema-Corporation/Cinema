@@ -1,9 +1,7 @@
 ﻿using DataAccess.Tmdb;
+namespace DataAccess.Interfaces;
 
-namespace DataAccess.Interfaces
+public interface ITmdb
 {
-    public interface ITmdb
-    {
-        public Task<List<MovieSearchItem>> GetLatestMoviesAsync();
-    }
+    public Task<List<MovieSearchItem>> GetLatestMoviesAsync();
 }
