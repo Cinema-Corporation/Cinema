@@ -18,7 +18,7 @@ namespace DataAccess.Repositories
 
         public async Task<List<MovieSearchItem>> GetLatestMoviesAsync()
         {
-            var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&language=uk&page=1";
+            var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&page=1";
 
             using var client = new HttpClient();
             var response = await client.GetAsync(url);
@@ -55,6 +55,48 @@ namespace DataAccess.Repositories
             return movieItems;
         }
 
+        public async Task<List<TMDbGenre>> GetAllGenresAsync()
+        {
+            var url = $"https://api.themoviedb.org/3/genre/movie/list?api_key={_apiKey}";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Не вдалося отримати список жанрів: {response.StatusCode}");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var genreResult = JsonConvert.DeserializeObject<GenreResult>(json);
+
+            return genreResult?.Genres ?? new List<TMDbGenre>();
+        }
+
+        public async Task SaveGenresToDatabaseAsync()
+        {
+            var genres = await GetAllGenresAsync();
+
+            var existingGenreIds = _context.Genres
+                .Select(g => g.Id)
+                .ToHashSet();
+
+            var newGenres = genres
+                .Where(g => !existingGenreIds.Contains(g.Id))
+                .Select(g => new Genre
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                })
+                .ToList();
+
+            if (newGenres.Any())
+            {
+                await _context.Genres.AddRangeAsync(newGenres);
+                await _context.SaveChangesAsync();
+            }
+        }
+
 
         public async Task SaveLatestMoviesToDatabaseAsync()
         {
@@ -87,7 +129,7 @@ namespace DataAccess.Repositories
 
         private async Task<string?> GetMovieTrailerKeyAsync(int movieId)
         {
-            var url = $"https://api.themoviedb.org/3/movie/{movieId}/videos?api_key={_apiKey}&language=uk";
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/videos?api_key={_apiKey}";
 
             using var client = new HttpClient();
             var response = await client.GetAsync(url);
@@ -105,7 +147,7 @@ namespace DataAccess.Repositories
 
         private async Task<int> GetMovieRuntimeAsync(int movieId)
         {
-            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}&language=uk";
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
 
             using var client = new HttpClient();
             var response = await client.GetAsync(url);

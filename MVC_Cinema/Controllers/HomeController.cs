@@ -19,13 +19,15 @@ public class HomeController : Controller
         _tmdbRepository = tmdbRepository;
     }
 
-    public  IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var movies = _context.Movies.ToList();
+        await _tmdbRepository.SaveGenresToDatabaseAsync();
+        var movies = await _tmdbRepository.GetLatestMoviesAsync();
+
         var movieViewModels = movies.Select(movie => new MovieViewModel
         {
-            Title = movie.Name,
-            PosterPath = movie.PosterUrl
+            Title = movie.Title,
+            PosterPath = movie.PosterPath
         }).ToList();
 
         return View(movieViewModels);
