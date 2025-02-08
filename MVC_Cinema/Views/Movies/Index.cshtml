@@ -20,9 +20,9 @@
                         <div class="card h-100 shadow-sm">
                             <img src="https://image.tmdb.org/t/p/w500/@(movie.PosterUrl)"
                                  class="card-img-top"
-                                 alt="@movie.Title">
+                                 alt="@movie.Name">
                             <div class="card-body">
-                                <h5 class="card-title">@movie.Title</h5>
+                                <h5 class="card-title">@movie.Name</h5>
                                 @if (!string.IsNullOrWhiteSpace(movie.Description) && movie.Description.Length > 130)
                                 {
                                     <p class="card-text text-muted small">@movie.Description.Substring(0, 130).TrimEnd()...</p>
@@ -33,7 +33,7 @@
                                 }
                             </div>
                             <div class="card-footer d-flex text-center">
-                                <button class="btn btn-outline-primary w-100 mx-3">Details</button>
+                                <a class="btn btn-outline-primary w-100 mx-3" asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.MovieId" >Details</a>
                                 <button class="btn btn-outline-primary w-100 mx-3">Buy Tickets</button>
                             </div>
                         </div>

@@ -1,8 +1,9 @@
 ﻿@model List<WebApp.Models.MovieViewModel>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
+
 <!-- HERO SECTION-->
 <div class="bg-dark text-white position-relative hero-section">
     <div class="h-100 w-100" style="background-color: rgba(0, 0, 0, 0.4);">
@@ -36,9 +37,9 @@
                         <div class="card h-100 shadow-sm">
                             <img src="https://image.tmdb.org/t/p/w500/@(movie.PosterUrl)"
                                  class="card-img-top"
-                                 alt="@movie.Title">
+                                 alt="@movie.Name">
                             <div class="card-body">
-                                <h5 class="card-title">@movie.Title</h5>
+                                <h5 class="card-title">@movie.Name</h5>
                                 <p class="card-text text-muted">Check out this blockbuster!</p>
                             </div>
                             <div class="card-footer d-flex text-center">

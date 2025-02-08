@@ -21,7 +21,7 @@ public class HomeController : Controller
         var movies = _context.Movies.ToList();
         var movieViewModels = movies.Select(movie => new MovieViewModel
         {
-            Title = movie.Name,
+            Name = movie.Name,
             Description = movie.Description,
             PosterUrl = movie.PosterUrl
         }).ToList();
