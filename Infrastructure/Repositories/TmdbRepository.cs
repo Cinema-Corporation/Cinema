@@ -102,29 +102,33 @@ namespace DataAccess.Repositories
         {
             var movies = await GetLatestMoviesAsync();
 
-            var existingMovieTitles = _context.Movies
-                .Select(m => m.Name)
-                .ToHashSet();
+            var existingMovieIds = _context.Movies.Select(m => m.Id).ToHashSet();
+            var newMovies = new List<Movie>();
 
-            var newMovies = movies
-                .Where(m => !existingMovieTitles.Contains(m.Title))
-                .Select(m => new Movie
+            foreach (var movie in movies)
+            {
+                if (!existingMovieIds.Contains(movie.Id))
                 {
-                    Id = m.Id,
-                    Name = m.Title,
-                    Description = m.Description,
-                    Rating = m.Rating,
-                    Duration = m.Duration,
-                    PosterUrl = m.PosterPath,
-                    TrailerUrl = m.TrailerUrl
-                })
-                .ToList();
+                    newMovies.Add(new Movie
+                    {
+                        Id = movie.Id,
+                        Name = movie.Title,
+                        Description = movie.Description,
+                        Rating = movie.Rating,
+                        Duration = movie.Duration,
+                        PosterUrl = movie.PosterPath,
+                        TrailerUrl = movie.TrailerUrl
+                    });
+                }
+            }
 
             if (newMovies.Any())
             {
                 await _context.Movies.AddRangeAsync(newMovies);
                 await _context.SaveChangesAsync();
             }
+
+            await SaveMovieGenresToDatabaseAsync(newMovies);
         }
 
         private async Task<string?> GetMovieTrailerKeyAsync(int movieId)
@@ -161,6 +165,58 @@ namespace DataAccess.Repositories
             var movieDetails = JsonConvert.DeserializeObject<MovieRunTime>(json);
 
             return movieDetails?.Runtime ?? 0;
+        }
+
+        private async Task<List<int>> GetMovieGenresAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}&language=uk";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<int>(); 
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var movieDetails = JsonConvert.DeserializeObject<GenreResult>(json);
+
+            return movieDetails?.Genres?.Select(g => g.Id).ToList() ?? new List<int>();
+        }
+
+        public async Task SaveMovieGenresToDatabaseAsync(List<Movie> movies)
+        {
+            var allGenres = _context.Genres.ToList();
+            var existingMovieGenres = _context.MovieGenres
+                .Select(mg => new { mg.MovieId, mg.GenreId })
+                .ToHashSet();
+
+            var movieGenresToAdd = new List<MovieGenre>();
+
+            foreach (var movie in movies)
+            {
+                var genreIds = await GetMovieGenresAsync(movie.Id);
+
+                foreach (var genreId in genreIds)
+                {
+                    if (allGenres.Any(g => g.Id == genreId) &&
+                        !existingMovieGenres.Contains(new { MovieId = movie.Id, GenreId = genreId }))
+                    {
+                        movieGenresToAdd.Add(new MovieGenre
+                        {
+                            MovieId = movie.Id,
+                            GenreId = genreId
+                        });
+                    }
+                }
+            }
+
+            if (movieGenresToAdd.Any())
+            {
+                await _context.MovieGenres.AddRangeAsync(movieGenresToAdd);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 
