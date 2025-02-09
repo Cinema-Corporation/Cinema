@@ -27,4 +27,5 @@ public class Movie : IEntity
     
     // [Url(ErrorMessage = "Invalid trailer URL")]
     public string? TrailerUrl { get; set; }
+    public bool Released { get; set; }
 }

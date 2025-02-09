@@ -9,4 +9,5 @@ public class MovieDTO
     public int Duration { get; set; }
     public string? PosterUrl { get; set; }
     public string? TrailerUrl { get; set; }
+    public bool Released { get; set; }
 }

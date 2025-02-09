@@ -25,7 +25,7 @@ public class MoviesController : Controller
         
         return View(movieViewModels);
     }
-
+    
     public IActionResult Details(int id)
     {
         var movie = _context.Movies.FirstOrDefault(m => m.Id == id);
