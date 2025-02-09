@@ -1,7 +1,6 @@
 ﻿﻿using DataAccess.Data;
 using WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-
 namespace WebApp.Controllers;
 
 public class MoviesController : Controller
@@ -43,9 +42,25 @@ public class MoviesController : Controller
             Rating = movie.Rating,
             Duration = movie.Duration,
             PosterUrl = movie.PosterUrl,
-            TrailerUrl = movie.TrailerUrl
+            TrailerUrl = movie.TrailerUrl,
+            Genres = GetGenresByMovieId(movie.Id)
         };
 
         return View(movieViewModel);
+    }
+
+    private List<string?> GetGenresByMovieId(int movieId)
+    {
+        var genres = _context.MovieGenres
+        .Where(mg => mg.MovieId == movieId)
+            .Join(
+                _context.Genres,
+                mg => mg.GenreId,
+                g => g.Id,
+                (mg, g) => g.Name
+            )
+            .ToList();
+
+        return genres;
     }
 }
