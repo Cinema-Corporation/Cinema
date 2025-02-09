@@ -29,44 +29,6 @@ public class HomeController : Controller
 
         return View(movieViewModels);
     }
-    
-    public IActionResult Details(int id)
-    {
-        var movie = _context.Movies.FirstOrDefault(m => m.Id == id);
-        if (movie == null)
-        {
-            return NotFound();
-        }
-
-        var movieViewModel = new MovieViewModel
-        {
-            MovieId = movie.Id,
-            Name = movie.Name,
-            Description = movie.Description,
-            Rating = movie.Rating,
-            Duration = movie.Duration,
-            PosterUrl = movie.PosterUrl,
-            TrailerUrl = movie.TrailerUrl,
-            Genres = GetGenresByMovieId(movie.Id)
-        };
-
-        return View(movieViewModel);
-    }
-
-    private List<string?> GetGenresByMovieId(int movieId)
-    {
-        var genres = _context.MovieGenres
-        .Where(mg => mg.MovieId == movieId)
-            .Join(
-                _context.Genres,
-                mg => mg.GenreId,
-                g => g.Id,
-                (mg, g) => g.Name
-            )
-            .ToList();
-
-        return genres;
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
