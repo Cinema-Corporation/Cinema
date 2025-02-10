@@ -7,14 +7,9 @@ namespace WebApp.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly AppDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger, AppDbContext context)
-    {
-        _logger = logger;
-        _context = context;
-    }
+    public HomeController(AppDbContext context) => _context = context;
 
     public IActionResult Index()
     {
@@ -23,8 +18,8 @@ public class HomeController : Controller
         {
             MovieId = movie.Id,
             Name = movie.Name,
-            Description = movie.Description?.Length > 0 ? movie.Description : "No description available.",
-            PosterUrl = movie.PosterUrl
+            PosterUrl = movie.PosterUrl,
+            Genres = GetGenresByMovieId(movie.Id)
         }).ToList();
 
         return View(movieViewModels);
@@ -34,5 +29,20 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private List<string?> GetGenresByMovieId(int movieId)
+    {
+        var genres = _context.MovieGenres
+        .Where(mg => mg.MovieId == movieId)
+            .Join(
+                _context.Genres,
+                mg => mg.GenreId,
+                g => g.Id,
+                (mg, g) => g.Name
+            )
+            .ToList();
+
+        return genres;
     }
 }

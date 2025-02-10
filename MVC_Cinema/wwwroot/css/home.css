@@ -1,8 +1,3 @@
-body {
-    background-color: #181818;
-    color: #ffffff;
-}
-
 .hero-section {
     height: 80vh;
     display: flex;
@@ -11,14 +6,14 @@ body {
     background: url('https://via.placeholder.com/1920x800') center/cover no-repeat;
     position: relative;
     border-radius: 20px;
-    overflow: hidden;
 }
 
 .coming-soon-section {
-    background-color: #121212;
+    background-color: #212121;
     border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    margin: 20px;
+    margin-bottom: 0px;
 }
 
 .card {
@@ -31,6 +26,7 @@ body {
 
 .card:hover {
     transform: scale(1.05);
+    border: 3px solid #d236d3;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -48,58 +44,4 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 15px;
-}
-
-.contact-section {
-    background-color: #121212;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-}
-
-input[type="email"] {
-    background-color: #212121;
-    color: #ffffff;
-    border: 1px solid #444;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-input[type="email"]:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(210, 54, 211, 0.8);
-    border-color: #d236d3;
-}
-
-button, a {
-    border-radius: 15px !important;
-    box-shadow: none !important;
-}
-
-button.btn-primary {
-    background-color: #d236d3;
-    border-color: #d236d3;
-}
-
-button.btn-primary:hover {
-    background-color: transparent;
-    border-color: #d236d3;
-    color: #d236d3;
-}
-
-button.btn-primary:focus {
-    background-color: transparent;
-    border-color: #d236d3;
-    color: #d236d3;
-}
-
-button.btn-outline, a.btn-outline {
-    color: #d236d3;
-    border-color: #d236d3;
-}
-
-button.btn-outline:hover, a.btn-outline:hover {
-    background-color: #d236d3;
-    border-color: #d236d3;
-    color: #ffffff;
 }

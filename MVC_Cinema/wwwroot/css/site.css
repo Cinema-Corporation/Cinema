@@ -8,15 +8,63 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+button, a {
+  border-radius: 15px !important;
+  box-shadow: none !important;
+}
+
+button.btn-primary {
+  background-color: #d236d3;
+  border-color: #d236d3;
+}
+
+button.btn-primary:hover {
+  background-color: transparent;
+  border-color: #d236d3;
+  color: #d236d3;
+}
+
+button.btn-primary:focus {
+  background-color: transparent;
+  border-color: #d236d3;
+  color: #d236d3;
+}
+
+button.btn-outline, a.btn-outline {
+  color: #d236d3;
+  border-color: #d236d3;
+}
+
+button.btn-outline:hover, a.btn-outline:hover {
+  background-color: #d236d3;
+  border-color: #d236d3;
+  color: #ffffff;
+}
+
+.custom-badge {
+  background-color: #d236d3;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5em 0.75em;
+  border-radius: 10px;
+}
+
+.contact-section {
+  background-color: #212121;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 0px 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  color: #d236d3;
 }
