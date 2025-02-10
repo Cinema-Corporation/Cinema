@@ -22,6 +22,9 @@ namespace DataAccess.Tmdb
         [JsonProperty("runtime")]
         public int Duration { get; set; }
 
+        [JsonProperty("videos")]
+        public MovieTrailerResult? MovieTrailerResult { get; set; }
+
         public string? TrailerUrl { get; set; }
     }
 }

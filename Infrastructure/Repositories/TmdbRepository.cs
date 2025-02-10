@@ -16,6 +16,40 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
+        public async Task<List<MovieSearchItem>> SearchMoviesAsync(string query)
+        {
+            var url = $"https://api.themoviedb.org/3/search/movie?api_key={_apiKey}&query={Uri.EscapeDataString(query)}";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Не вдалося виконати пошук: {response.StatusCode}");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(json);
+
+            return searchResult?.Results ?? new List<MovieSearchItem>();
+        }
+
+        public async Task<MovieSearchItem> GetMovieDetailsAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}&append_to_response=videos,credits";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Не вдалося отримати дані про фільм: {response.StatusCode}");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<MovieSearchItem>(json);
+        }
+
         public async Task<List<MovieSearchItem>> GetLatestMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&page=1";
@@ -96,7 +130,6 @@ namespace DataAccess.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
 
         public async Task SaveLatestMoviesToDatabaseAsync()
         {

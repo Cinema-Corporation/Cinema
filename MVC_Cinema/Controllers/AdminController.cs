@@ -3,15 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
 using WebApp.ViewModels;
 using DataAccess.Entities;
+using DataAccess.Repositories;
+using DataAccess.Tmdb;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WebApp.Controllers;
 
 public class AdminController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly TmdbRepository _tmdbRepository;
 
-    public AdminController(AppDbContext context)
+    public AdminController(AppDbContext context, TmdbRepository tmdbRepository)
     {
         _context = context;
+        _tmdbRepository = tmdbRepository;
     }
 
     public IActionResult Movies()
@@ -44,6 +49,34 @@ public class AdminController : Controller
     public IActionResult Movie()
     {
         return View("AddMovie");
+    }
+
+    public IActionResult Search()
+    {
+        return View("SearchMovie");
+    }
+
+    public async Task<IActionResult> SearchMovie(string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return View(new List<MovieSearchItem>());
+        }
+
+        var movies = await _tmdbRepository.SearchMoviesAsync(query);
+        return View(movies);
+    }
+
+    [HttpGet("SearchMovieDetails/{id}")]
+    public async Task<IActionResult> SearchMovieDetails(int id)
+    {
+        var movieDetails = await _tmdbRepository.GetMovieDetailsAsync(id);
+        if (movieDetails == null)
+        {
+            return NotFound();
+        }
+
+        return View(movieDetails);
     }
     public IActionResult AddMovie(Movie movie)
     {

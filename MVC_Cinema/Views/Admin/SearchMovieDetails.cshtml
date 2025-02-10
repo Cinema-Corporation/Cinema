@@ -1,0 +1,35 @@
+﻿@model DataAccess.Tmdb.MovieSearchItem
+
+@{
+    ViewData["Title"] = "Деталі фільму";
+}
+
+<div class="container mt-4">
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <img src="https://image.tmdb.org/t/p/w200@(Model.PosterPath)" class="img-fluid rounded shadow" alt="@Model.Title">
+            </div>
+            <div class="col-md-8">
+                <h2>@Model.Title</h2>
+                <p class="text-muted">Vote average: ⭐ @Model.Rating</p>
+                <p>@Model.Description</p>
+                <p><strong>Duration:</strong> @Model.Duration хв.</p>
+
+                @if (!string.IsNullOrEmpty(Model.TrailerUrl))
+                {
+                    <a href="https://www.youtube.com/watch?v=@Model.MovieTrailerResult" target="_blank" class="btn btn-danger">
+                        🎬 Watch the trailer
+                    </a>
+                }
+
+                <a href="/Admin/SearchMovie" class="btn btn-secondary">🔙 Back to search</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="alert alert-warning">Movie not found.</p>
+    }
+</div>
