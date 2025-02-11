@@ -25,6 +25,7 @@ namespace DataAccess.Tmdb
         [JsonProperty("videos")]
         public MovieTrailerResult? MovieTrailerResult { get; set; }
 
-        public string? TrailerUrl { get; set; }
+        public string? TrailerUrl => MovieTrailerResult?.Results?
+            .FirstOrDefault(v => v.Type == "Trailer" && v.Site == "YouTube")?.Key;
     }
 }

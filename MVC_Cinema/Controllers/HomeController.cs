@@ -21,16 +21,16 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        await _tmdbRepository.SaveLatestMoviesToDatabaseAsync();
-        var movies = await _tmdbRepository.GetLatestMoviesAsync();
+        //await _tmdbRepository.SaveLatestMoviesToDatabaseAsync();
+        //var movies = await _tmdbRepository.GetLatestMoviesAsync();
 
-        var movieViewModels = movies.Select(movie => new MovieViewModel
-        {
-            Title = movie.Title,
-            PosterPath = movie.PosterPath
-        }).ToList();
+        //var movieViewModels = movies.Select(movie => new MovieViewModel
+        //{
+        //    Title = movie.Title,
+        //    PosterPath = movie.PosterPath
+        //}).ToList();
 
-        return View(movieViewModels);
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
