@@ -1,11 +1,14 @@
 using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 namespace DataAccess.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options) 
+        : base(options) { }
 
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Hall> Halls { get; set; }
@@ -14,7 +17,6 @@ public class AppDbContext : DbContext
     public DbSet<Placement> Placements { get; set; }
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +29,5 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PlacementConfiguration());
         modelBuilder.ApplyConfiguration(new SessionConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 }
