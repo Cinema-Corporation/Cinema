@@ -16,6 +16,5 @@ public class ApplicationProfile : Profile
         CreateMap<SessionDTO, Session>().ReverseMap();
         CreateMap<TicketDTO, Ticket>().ReverseMap();
         CreateMap<HallDTO, Hall>().ReverseMap();
-        CreateMap<UserDTO, User>().ReverseMap();
     }
 }
