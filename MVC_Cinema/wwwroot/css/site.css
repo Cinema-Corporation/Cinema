@@ -23,18 +23,18 @@ button, a {
   box-shadow: none !important;
 }
 
-button.btn-primary {
+button.btn-primary, a.btn-primary {
   background-color: #d236d3;
   border-color: #d236d3;
 }
 
-button.btn-primary:hover {
+button.btn-primary:hover, a.btn-primary:hover {
   background-color: transparent;
   border-color: #d236d3;
   color: #d236d3;
 }
 
-button.btn-primary:focus {
+button.btn-primary:focus, a.btn-primary:focus{
   background-color: transparent;
   border-color: #d236d3;
   color: #d236d3;
