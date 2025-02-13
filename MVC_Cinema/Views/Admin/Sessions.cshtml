@@ -1,17 +1,22 @@
-@model WebApp.ViewModels.SessionMovieViewModel
+@model WebApp.ViewModels.SessionsMoviesViewModel
 @{
     ViewData["Title"] = "Sessions";
 }
 
+<a class="btn btn-primary" style="margin-bottom: 10px " asp-action="Session" asp-controller="Admin" >Add Session</a>
+
 <div class="row">
     @foreach (var session in Model.Sessions)
     {
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <h1>@Model.Movies.FirstOrDefault(m => m.Id == session.MovieId)?.Name</h1>
-                <p>@session.TimeStart</p>
-                <p>@session.TimeEnd</p>
-            </div>
+        <div class="col-md-4">                <div class="card mb-4 shadow-sm">
+            <h1>@Model.Movies.FirstOrDefault(m => m.Id == session.MovieId)?.Name</h1>
+            <p>Start: @session.TimeStart</p>
+            <p>End: @session.TimeEnd</p>
+            <p>Hall: @session.HallId</p>
+                
+            <a class="btn btn-primary" asp-action="SelectSession" asp-controller="Admin" asp-route-id="@session.Id">Edit</a>
+            <a class="btn btn-danger" asp-action="DeleteSession" asp-controller="Admin" asp-route-id="@session.Id">Delete</a>
+           </div>
         </div>
     }
 </div>

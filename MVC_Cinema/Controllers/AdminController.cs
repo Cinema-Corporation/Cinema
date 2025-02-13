@@ -91,23 +91,62 @@ public class AdminController : Controller
 
     public IActionResult Sessions()
     {
-        var MovieSessions = new SessionMovieViewModel
+        var MovieSessions = new SessionsMoviesViewModel
         {
             Movies = [.. _context.Movies],
             Sessions = [.. _context.Sessions]
         };
         return View(MovieSessions);
     }
-    public IActionResult EditSession(int SessionId)
+    public IActionResult SelectSession(int id)
     {
-        var session = _context.Sessions.Find(SessionId);
-        return View(session);
+        var session = _context.Sessions.Find(id);
+        
+        if (session == null)
+            return NotFound();
+        
+        var sessionMovies = new SessionMoviesViewModel
+        {
+            Movies = _context.Movies.ToList(),
+            Session = session
+        };
+        return View( "EditSession" ,sessionMovies);
     }
     public IActionResult EditSession(Session session)
     {
+        session.TimeEnd = session.TimeStart.AddMinutes(_context.Movies.Find(session.MovieId).Duration);
         _context.Sessions.Update(session);
         _context.SaveChanges();
         return RedirectToAction("Sessions");
+    }
+    public IActionResult DeleteSession(int id)
+    {
+        var session = _context.Sessions.Find(id);
+        if(session == null)
+        {
+            return NotFound();
+        }
+        _context.Sessions.Remove(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
+    }
+    public IActionResult AddSession(Session session)
+    {
+        if(session.MovieId == 0 || session.TimeStart == DateTime.MinValue)
+            return View("Error", new ErrorViewModel { RequestId = "Invalid session data." });
+        
+        session.TimeEnd = session.TimeStart.AddMinutes(_context.Movies.Find(session.MovieId).Duration);
+
+        if(session.TimeEnd < DateTime.Now)
+            return View("Error", new ErrorViewModel { RequestId = "Session time is in the past." });
+        
+        _context.Sessions.Add(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
+    }
+    public IActionResult Session()
+    {
+        return View("AddSession", new SessionMoviesViewModel { Movies = _context.Movies.ToList(), Session = new Session() });
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

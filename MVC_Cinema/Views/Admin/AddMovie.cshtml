@@ -40,5 +40,12 @@
             <span asp-validation-for="TrailerUrl" class="text-danger"></span>
         </div>
     </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Released" class="control-label"></label>
+            <input asp-for="Released" type="checkbox"/>
+            <span asp-validation-for="Released" class="text-danger"></span>
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
