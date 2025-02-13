@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Movie details";
+
+    var trailer = Model.MovieTrailerResult?.Results?
+        .FirstOrDefault(v => v.Type == "Trailer" && v.Site == "YouTube")?.Key;
 }
 
 <div class="container mt-4">
@@ -17,9 +20,9 @@
                 <p>@Model.Description</p>
                 <p><strong>Duration:</strong> @Model.Duration min.</p>
 
-                @if (!string.IsNullOrEmpty(Model.TrailerUrl))
+                @if (!string.IsNullOrEmpty(trailer))
                 {
-                    <a href="https://www.youtube.com/watch?v=@Model.TrailerUrl" target="_blank" class="btn btn-danger">
+                    <a href="https://www.youtube.com/watch?v=@trailer" target="_blank" class="btn btn-danger">
                         🎬 Watch the trailer
                     </a>
                 }
