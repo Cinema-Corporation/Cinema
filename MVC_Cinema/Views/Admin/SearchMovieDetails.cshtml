@@ -28,8 +28,19 @@
                 }
                 
                 <br>
-                <a href="/Admin/SearchMovie" class="btn btn-primary" style="max-width: 150px">Back to search</a>
-                <a class="btn btn-primary" style="max-width: 150px" asp-action="AddSearchMovie" asp-controller="Admin" asp-route-MovieId="@Model.Id">Add to movies</a>
+                <form asp-action="AddSearchMovie" asp-controller="Admin">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="Title" value="@Model.Title" />
+                    <input type="hidden" asp-for="PosterPath" value="@Model.PosterPath" />
+                    <input type="hidden" asp-for="Description" value="@Model.Description" />
+                    <input type="hidden" asp-for="Rating" value="@Model.Rating" />
+                    <input type="hidden" asp-for="Duration" value="@Model.Duration" />
+                    <input type="hidden" asp-for="Status" value="@Model.Status" />
+                    <input type="hidden" asp-for="TrailerUrl" value="@trailer" />
+                    <a href="/Admin/SearchMovie" class="btn btn-primary" style="max-width: 150px">Back to search</a>
+                    <button type="submit" class="btn btn-primary" style="max-width: 150px">Add to movies</button>
+                </form>
+                
                 
             </div>
         </div>

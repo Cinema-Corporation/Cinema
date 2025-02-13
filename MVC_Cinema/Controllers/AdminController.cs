@@ -80,11 +80,35 @@ public class AdminController : Controller
     }
     public IActionResult AddMovie(Movie movie)
     {
-        if(movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0  || movie.TrailerUrl == null || movie.Rating == 0) 
+        if(movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0  || movie.TrailerUrl == null || movie.Rating < 0) 
         {
             return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
         }
         _context.Movies.Add(movie);
+        _context.SaveChanges();
+        return RedirectToAction("Movies");
+    }
+
+    public IActionResult AddSearchMovie(MovieSearchItem Movie)
+    {
+        var movie = new Movie
+        {
+            Id = Movie.Id,
+            Name = Movie.Title,
+            Description = Movie.Description,
+            Rating = Movie.Rating,
+            Duration = Movie.Duration,
+            PosterUrl = Movie.PosterPath,
+            TrailerUrl = Movie.TrailerUrl,
+            Released = Movie.Status == "Released" ? true : false
+        };
+
+        if (movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0 || movie.TrailerUrl == null || movie.Rating < 0)
+        {
+            return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
+        }
+
+        _context.Movies.Add(movie); 
         _context.SaveChanges();
         return RedirectToAction("Movies");
     }
