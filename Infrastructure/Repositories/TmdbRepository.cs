@@ -50,6 +50,7 @@ namespace DataAccess.Repositories
             return JsonConvert.DeserializeObject<MovieSearchItem>(json);
         }
 
+        #region For development
         public async Task<List<MovieSearchItem>> GetLatestMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&page=1";
@@ -254,6 +255,6 @@ namespace DataAccess.Repositories
             }
         }
     }
-
+    #endregion
 
 }

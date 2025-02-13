@@ -11,23 +11,26 @@
     @if (Model != null)
     {
         <div class="row">
-            <div class="col-md-4">
-                <img src="https://image.tmdb.org/t/p/w200@(Model.PosterPath)" class="img-fluid rounded shadow" alt="@Model.Title">
+            <div class="col-md-4 d-flex justify-content-center">
+                <img src="https://image.tmdb.org/t/p/w300@(Model.PosterPath)">
             </div>
             <div class="col-md-8">
+                
                 <h2>@Model.Title</h2>
+                <p>@Model.Status</p>
                 <p class="text-muted">Vote average: ⭐ @Model.Rating</p>
                 <p>@Model.Description</p>
                 <p><strong>Duration:</strong> @Model.Duration min.</p>
 
                 @if (!string.IsNullOrEmpty(trailer))
                 {
-                    <a href="https://www.youtube.com/watch?v=@trailer" target="_blank" class="btn btn-danger">
-                        🎬 Watch the trailer
-                    </a>
+                    <iframe width="500" height="300" src="https://www.youtube.com/embed/@trailer" frameborder="0" allowfullscreen></iframe>
                 }
-
-                <a href="/Admin/SearchMovie" class="btn btn-secondary">🔙 Back to search</a>
+                
+                <br>
+                <a href="/Admin/SearchMovie" class="btn btn-primary" style="max-width: 150px">Back to search</a>
+                <a class="btn btn-primary" style="max-width: 150px" asp-action="AddSearchMovie" asp-controller="Admin" asp-route-MovieId="@Model.Id">Add to movies</a>
+                
             </div>
         </div>
     }
