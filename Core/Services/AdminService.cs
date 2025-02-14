@@ -1,15 +1,18 @@
 using DataAccess.Data;
 using BusinessLogic.DTOs;
 using DataAccess.Tmdb;
+using DataAccess.Repositories;
 namespace BusinessLogic.Services;
 
 public class AdminService
 {
     private readonly AppDbContext _context;
+    private readonly TmdbRepository _tmdbRepository;
 
-    public AdminService(AppDbContext context)
+    public AdminService(AppDbContext context, TmdbRepository tmdbRepository)
     {
         _context = context;
+        _tmdbRepository = tmdbRepository;
     }
 
     public void DeleteMovie(int movieId)
@@ -59,7 +62,7 @@ public class AdminService
         _context.AddRange(uniqueGenres);
         _context.SaveChanges();
     }
-    public void AddSearchMovie(MovieSearchItem movie)
+    public async Task AddSearchMovie(MovieSearchItem movie)
     {
         var newMovie = new DataAccess.Entities.Movie
         {
@@ -80,5 +83,7 @@ public class AdminService
 
         _context.Movies.Add(newMovie);
         _context.SaveChanges();
+
+        await _tmdbRepository.SaveMovieGenresToDatabaseAsync(newMovie);
     }
 }

@@ -14,12 +14,14 @@ public class AdminController : Controller
 {
     private readonly AppDbContext _context;
     private readonly TmdbRepository _tmdbRepository;
+    private readonly AdminService _adminService;
     
 
-    public AdminController(AppDbContext context, TmdbRepository tmdbRepository)
+    public AdminController(AppDbContext context, TmdbRepository tmdbRepository, AdminService adminService)
     {
         _context = context;
         _tmdbRepository = tmdbRepository;
+        _adminService = adminService;
     }
     
 
@@ -41,8 +43,7 @@ public class AdminController : Controller
     }
     public IActionResult DeleteMovie(int MovieId)
     {
-        AdminService adminService = new(_context);
-        adminService.DeleteMovie(MovieId);
+        _adminService.DeleteMovie(MovieId);
         return RedirectToAction("Movies");
     }
     public IActionResult Movie()
@@ -85,15 +86,13 @@ public class AdminController : Controller
     }
     public IActionResult AddMovie(MovieAndGenres movieAndGenres)
     {
-        AdminService adminService = new(_context);
-        adminService.AddMovie(movieAndGenres);
+        _adminService.AddMovie(movieAndGenres);
         return RedirectToAction("Movies");
     }
 
-    public IActionResult AddSearchMovie(MovieSearchItem Movie)
+    public async Task<IActionResult> AddSearchMovie(MovieSearchItem movie)
     {
-        AdminService adminService = new(_context);
-        adminService.AddSearchMovie(Movie);
+        await _adminService.AddSearchMovie(movie);
         return RedirectToAction("Movies");
     }
 

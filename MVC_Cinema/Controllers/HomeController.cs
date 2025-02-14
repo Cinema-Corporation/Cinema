@@ -21,7 +21,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        // await _tmdbRepository.SaveLatestMoviesToDatabaseAsync();
         var movies = _context.Movies.ToList();
 
         var movieViewModels = movies.Select(movie => new MovieViewModel

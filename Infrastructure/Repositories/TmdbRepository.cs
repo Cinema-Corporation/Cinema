@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace DataAccess.Repositories
 {
-    public class TmdbRepository
+    public class TmdbRepository : ITmdb
     {
         private readonly string? _apiKey;
         private readonly AppDbContext _context;
@@ -48,6 +48,54 @@ namespace DataAccess.Repositories
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<MovieSearchItem>(json);
+        }
+
+        public async Task SaveMovieGenresToDatabaseAsync(Movie movie)
+        {
+            var allGenres = _context.Genres.ToList();
+            var existingMovieGenres = _context.MovieGenres
+                .Where(mg => mg.MovieId == movie.Id)
+                .Select(mg => mg.GenreId)
+                .ToHashSet();
+
+            var genreIds = await GetMovieGenresAsync(movie.Id);
+            var movieGenresToAdd = new List<MovieGenre>();
+
+            foreach (var genreId in genreIds)
+            {
+                if (allGenres.Any(g => g.Id == genreId) && !existingMovieGenres.Contains(genreId))
+                {
+                    movieGenresToAdd.Add(new MovieGenre
+                    {
+                        MovieId = movie.Id,
+                        GenreId = genreId
+                    });
+                }
+            }
+
+            if (movieGenresToAdd.Any())
+            {
+                await _context.MovieGenres.AddRangeAsync(movieGenresToAdd);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task<List<int>> GetMovieGenresAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<int>();
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var movieDetails = JsonConvert.DeserializeObject<GenreResult>(json);
+
+            return movieDetails?.Genres?.Select(g => g.Id).ToList() ?? new List<int>();
         }
 
         #region For development
@@ -162,7 +210,7 @@ namespace DataAccess.Repositories
                 await _context.SaveChangesAsync();
             }
 
-            await SaveMovieGenresToDatabaseAsync(newMovies);
+            //await SaveMovieGenresToDatabaseAsync(newMovies);
         }
 
         public async Task<string?> GetMovieTrailerKeyAsync(int movieId)
@@ -203,57 +251,6 @@ namespace DataAccess.Repositories
             return movieDetails?.Runtime ?? 0;
         }
 
-        private async Task<List<int>> GetMovieGenresAsync(int movieId)
-        {
-            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
-
-            using var client = new HttpClient();
-            var response = await client.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return new List<int>();
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var movieDetails = JsonConvert.DeserializeObject<GenreResult>(json);
-
-            return movieDetails?.Genres?.Select(g => g.Id).ToList() ?? new List<int>();
-        }
-
-        public async Task SaveMovieGenresToDatabaseAsync(List<Movie> movies)
-        {
-            var allGenres = _context.Genres.ToList();
-            var existingMovieGenres = _context.MovieGenres
-                .Select(mg => new { mg.MovieId, mg.GenreId })
-                .ToHashSet();
-
-            var movieGenresToAdd = new List<MovieGenre>();
-
-            foreach (var movie in movies)
-            {
-                var genreIds = await GetMovieGenresAsync(movie.Id);
-
-                foreach (var genreId in genreIds)
-                {
-                    if (allGenres.Any(g => g.Id == genreId) &&
-                        !existingMovieGenres.Contains(new { MovieId = movie.Id, GenreId = genreId }))
-                    {
-                        movieGenresToAdd.Add(new MovieGenre
-                        {
-                            MovieId = movie.Id,
-                            GenreId = genreId
-                        });
-                    }
-                }
-            }
-
-            if (movieGenresToAdd.Any())
-            {
-                await _context.MovieGenres.AddRangeAsync(movieGenresToAdd);
-                await _context.SaveChangesAsync();
-            }
-        }
     }
     #endregion
 
