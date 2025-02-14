@@ -5,6 +5,8 @@ using WebApp.ViewModels;
 using DataAccess.Entities;
 using DataAccess.Repositories;
 using DataAccess.Tmdb;
+using BusinessLogic.Services;
+using BusinessLogic.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WebApp.Controllers;
 
@@ -12,12 +14,14 @@ public class AdminController : Controller
 {
     private readonly AppDbContext _context;
     private readonly TmdbRepository _tmdbRepository;
+    
 
     public AdminController(AppDbContext context, TmdbRepository tmdbRepository)
     {
         _context = context;
         _tmdbRepository = tmdbRepository;
     }
+    
 
     public IActionResult Movies()
     {
@@ -37,18 +41,19 @@ public class AdminController : Controller
     }
     public IActionResult DeleteMovie(int MovieId)
     {
-        var movie = _context.Movies.Find(MovieId);
-        if(movie == null)
-        {
-            return NotFound();
-        }
-        _context.Movies.Remove(movie);
-        _context.SaveChanges();
+        AdminService adminService = new(_context);
+        adminService.DeleteMovie(MovieId);
         return RedirectToAction("Movies");
     }
     public IActionResult Movie()
     {
-        return View("AddMovie");
+        var MovieAndGenres = new MovieAndGenres
+        {
+            Movie = new Movie(),
+            Genres = _context.Genres.ToList(),
+            MovieGenres = new List<MovieGenre>()
+        };
+        return View("AddMovie", MovieAndGenres);
     }
 
     public IActionResult Search()
@@ -78,38 +83,17 @@ public class AdminController : Controller
 
         return View(movieDetails);
     }
-    public IActionResult AddMovie(Movie movie)
+    public IActionResult AddMovie(MovieAndGenres movieAndGenres)
     {
-        if(movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0  || movie.TrailerUrl == null || movie.Rating < 0) 
-        {
-            return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
-        }
-        _context.Movies.Add(movie);
-        _context.SaveChanges();
+        AdminService adminService = new(_context);
+        adminService.AddMovie(movieAndGenres);
         return RedirectToAction("Movies");
     }
 
     public IActionResult AddSearchMovie(MovieSearchItem Movie)
     {
-        var movie = new Movie
-        {
-            Id = Movie.Id,
-            Name = Movie.Title,
-            Description = Movie.Description,
-            Rating = Movie.Rating,
-            Duration = Movie.Duration,
-            PosterUrl = Movie.PosterPath,
-            TrailerUrl = Movie.TrailerUrl,
-            Released = Movie.Status == "Released" ? true : false
-        };
-
-        if (movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0 || movie.TrailerUrl == null || movie.Rating < 0)
-        {
-            return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
-        }
-
-        _context.Movies.Add(movie); 
-        _context.SaveChanges();
+        AdminService adminService = new(_context);
+        adminService.AddSearchMovie(Movie);
         return RedirectToAction("Movies");
     }
 
