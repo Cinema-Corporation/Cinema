@@ -20,6 +20,10 @@
     overflow-x: hidden;
 }
 
+.container-main {
+    min-height: 750px;
+}
+
 main {
     width: 100%;
     max-width: 100%;
