@@ -11,19 +11,37 @@ public class HomeController : Controller
 
     public HomeController(AppDbContext context) => _context = context;
 
-    public IActionResult Index()
+    public IActionResult Index(string filter)
     {
         var movies = _context.Movies.ToList();
-        var movieViewModels = movies.Select(movie => new MovieViewModel
+
+        if (filter == "released")
         {
-            MovieId = movie.Id,
-            Name = movie.Name,
-            PosterUrl = movie.PosterUrl,
-            Genres = GetGenresByMovieId(movie.Id)
+            movies = movies.Where(m => m.Released == true).ToList();
+            ViewBag.Filter = "released";
+        }
+        else if (filter == "comingsoon")
+        {
+            movies = movies.Where(m => m.Released == false).ToList();
+            ViewBag.Filter = "comingsoon";
+        }
+        else
+        {
+            ViewBag.Filter = "released";
+        }
+
+        var model = movies.Select(m => new MovieViewModel
+        {
+            MovieId = m.Id,
+            Name = m.Name,
+            PosterUrl = m.PosterUrl,
+            Genres = GetGenresByMovieId(m.Id),
+            Released = m.Released
         }).ToList();
 
-        return View(movieViewModels);
+        return View(model);
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

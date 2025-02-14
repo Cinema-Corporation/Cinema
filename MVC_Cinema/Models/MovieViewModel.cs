@@ -9,6 +9,7 @@ public class MovieViewModel
     public int Duration { get; set; }
     public string? PosterUrl { get; set; }
     public string? TrailerUrl { get; set; }
+    public bool Released { get; set; }
     public List<string?>? Genres { get; set; }
 
     public string GetFormattedDuration()

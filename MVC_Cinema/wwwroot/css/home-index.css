@@ -3,11 +3,12 @@
     height: 85vh;
 }
 
-.coming-soon-section .card {
+.movies-section .card {
     max-width: 400px;
     margin: 0 auto;
 }
-.coming-soon-section .card-img-top {
+
+.movies-section .card-img-top {
     width: 100%;
     height: auto;
     object-fit: cover;
