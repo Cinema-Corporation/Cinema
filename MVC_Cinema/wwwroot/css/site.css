@@ -63,7 +63,7 @@ button.btn-outline:hover, a.btn-outline:hover {
     background-color: transparent;
     border: none;
     padding: 0px 20px;
-    margin-bottom: 24px;
+    margin-top: 24px;
 }
 
 .accordion-body {
