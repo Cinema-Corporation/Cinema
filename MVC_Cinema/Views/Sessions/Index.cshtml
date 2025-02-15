@@ -5,6 +5,11 @@
 }
 
 <div class="container my-4">
+    @if (Model.GroupBy(s => s.Session.TimeStart.Date).OrderBy(g => g.Key).ToList().Count == 0)
+    {
+        <p class="text-center text-muted">No sessions available for this movie at the moment.</p>
+    }
+
     <div class="accordion" id="sessionAccordion">
         @{
             var groupedSessions = Model.GroupBy(s => s.Session.TimeStart.Date).OrderBy(g => g.Key).ToList();
@@ -59,9 +64,9 @@
                                                         <h5 class="card-title fw-bold">@item.Movie?.Name</h5>
                                                     </a>
 
-                                                    @if (!string.IsNullOrWhiteSpace(item.Movie?.Description) && item.Movie.Description.Length > 120)
+                                                    @if (!string.IsNullOrWhiteSpace(item.Movie?.Description) && item.Movie.Description.Length > 80)
                                                     {
-                                                        <p class="card-text text-muted small">@item.Movie.Description.Substring(0, 40)...</p>
+                                                        <p class="card-text text-muted small">@item.Movie.Description.Substring(0, 80).TrimEnd()...</p>
                                                     }
                                                     else
                                                     {
@@ -69,11 +74,11 @@
                                                     }
 
                                                     <ul class="list-unstyled text-light small">
-                                                        <li><strong>Rating:</strong> <span class="badge custom-badge" style="font-size: small">@item.Movie?.Rating</span></li>
-                                                        <li><strong>Duration:</strong> <span class="badge custom-badge" style="font-size: small">@item.Movie?.GetFormattedDuration()</span></li>
-                                                        <li><strong>Start:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.TimeStart.ToString("HH:mm")</span></li>
-                                                        <li><strong>End:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.TimeEnd.ToString("HH:mm")</span></li>
-                                                        <li><strong>Hall:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.HallId</span></li>
+                                                        <li><strong>Rating:</strong> <span class="badge custom-badge mb-1" style="font-size: small">@item.Movie?.Rating</span></li>
+                                                        <li><strong>Duration:</strong> <span class="badge custom-badge mb-1" style="font-size: small">@item.Movie?.GetFormattedDuration()</span></li>
+                                                        <li><strong>Start:</strong> <span class="badge custom-badge mb-1" style="font-size: small">@item.Session.TimeStart.ToString("HH:mm")</span></li>
+                                                        <li><strong>End:</strong> <span class="badge custom-badge mb-1" style="font-size: small">@item.Session.TimeEnd.ToString("HH:mm")</span></li>
+                                                        <li><strong>Hall:</strong> <span class="badge custom-badge mb-1" style="font-size: small">@item.Session.HallId</span></li>
                                                     </ul>
 
                                                     <div class="mt-auto">

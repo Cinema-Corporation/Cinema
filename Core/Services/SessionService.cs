@@ -31,6 +31,16 @@ public class SessionService : ISessionService
         return _mapper.Map<IEnumerable<SessionDTO>>(activeSessions);
     }
 
+    public IEnumerable<SessionDTO> GetActiveSessionsByMovie(int movieId)
+    {
+        var activeSessions = _sessionRepository
+            .GetAll()
+            .Where(s => s.TimeEnd > DateTime.Now && s.MovieId == movieId)
+            .ToList();
+
+        return _mapper.Map<IEnumerable<SessionDTO>>(activeSessions);
+    }
+
     public IEnumerable<SessionWithMovieDTO> GetActiveSessionsWithMovies()
     {
         var activeSessionDTOs = GetActiveSessions();
@@ -43,35 +53,34 @@ public class SessionService : ISessionService
         var movieDTOs = _movieService.GetMoviesByIds(movieIds);
 
         var result = activeSessionDTOs.Select(sessionDto => 
+        {
+            var movie = movieDTOs.FirstOrDefault(m => m.MovieId == sessionDto.MovieId);
+            return new SessionWithMovieDTO
             {
-                var movie = movieDTOs.FirstOrDefault(m => m.MovieId == sessionDto.MovieId);
-                return new SessionWithMovieDTO
-                {
-                    Session = sessionDto,
-                    Movie = movie
-                };
-            })
-            .ToList();
+                Session = sessionDto,
+                Movie = movie
+            };
+        })
+        .ToList();
 
         return result;
     }
 
-    public IEnumerable<SessionWithMovieDTO> GetSessionsByMovie(int movieId)
+    public IEnumerable<SessionWithMovieDTO> GetActiveSessionsWithMoviesByMovie(int movieId)
     {
-        var activeSessions = _sessionRepository
-            .GetAll()
-            .Where(s => s.TimeEnd > DateTime.Now && s.MovieId == movieId)
-            .ToList();
+        var activeSessionDTOs = GetActiveSessionsByMovie(movieId);
 
-        var sessionDTOs = _mapper.Map<IEnumerable<SessionDTO>>(activeSessions);
-        
-        var movie = _movieService.GetMovieById(movieId);
+        var movieDto = _movieService.GetMovieById(movieId);
 
-        return sessionDTOs.Select(sessionDto => new SessionWithMovieDTO
+        if (movieDto == null) return Enumerable.Empty<SessionWithMovieDTO>();
+
+        var result = activeSessionDTOs.Select(sessionDto => new SessionWithMovieDTO
         {
             Session = sessionDto,
-            Movie = movie
+            Movie = movieDto
         }).ToList();
+
+        return result;
     }
 
 }

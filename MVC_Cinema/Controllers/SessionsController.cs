@@ -16,4 +16,11 @@ public class SessionsController : Controller
         var sessionsWithMovies = _sessionService.GetActiveSessionsWithMovies();
         return View(sessionsWithMovies);
     }
+
+    public IActionResult ByMovie(int id)
+    {
+        var sessions = _sessionService.GetActiveSessionsWithMoviesByMovie(id);
+        return View("Index", sessions);
+    }
+
 }

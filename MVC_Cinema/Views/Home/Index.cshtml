@@ -24,9 +24,16 @@
 
 <div class="filter-buttons text-center mb-4">
     <a class="btn @(ViewBag.Filter == "released" ? "btn-primary" : "btn-outline") btn-lg me-2"
-       asp-action="Index" asp-route-filter="released">Released</a>
+       id="filter"
+       href="@Url.Action("Index", new { filter = "released" })#filter">
+        Released
+    </a>
+
     <a class="btn @(ViewBag.Filter == "comingsoon" ? "btn-primary" : "btn-outline") btn-lg"
-       asp-action="Index" asp-route-filter="comingsoon">Coming Soon</a>
+       id="filter"
+       href="@Url.Action("Index", new { filter = "comingsoon" })#filter">
+        Coming Soon
+    </a>
 </div>
 
 <div class="movies-section text-light">
@@ -69,10 +76,10 @@
                                     @if (ViewBag.Filter == "released")
                                     {
                                         <a class="btn btn-outline w-50 me-2"
-                                                asp-area=""
-                                                asp-controller="Sessions"
-                                                asp-action="Seats"
-                                                asp-route-id="@movie.MovieId">
+                                            asp-area=""
+                                            asp-controller="Sessions"
+                                            asp-action="ByMovie"
+                                            asp-route-id="@movie.MovieId">
                                             Buy Tickets
                                         </a>
                                     }
