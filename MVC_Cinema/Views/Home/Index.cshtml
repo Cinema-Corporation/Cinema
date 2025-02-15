@@ -59,16 +59,22 @@
                                     <p class="card-text text-muted">@movie.GetFormattedGenres()</p>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center">
-                                    <a class="btn btn-outline w-50 me-2" asp-area="" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.MovieId">Details</a>
+                                    <a class="btn btn-outline w-50 me-2" 
+                                       asp-area="" 
+                                       asp-controller="Movies" 
+                                       asp-action="Details" 
+                                       asp-route-id="@movie.MovieId">
+                                       Details
+                                    </a>
                                     @if (ViewBag.Filter == "released")
                                     {
-                                        <button class="btn btn-outline w-50"
+                                        <a class="btn btn-outline w-50 me-2"
                                                 asp-area=""
                                                 asp-controller="Sessions"
                                                 asp-action="Seats"
                                                 asp-route-id="@movie.MovieId">
                                             Buy Tickets
-                                        </button>
+                                        </a>
                                     }
                                 </div>
                             </div>

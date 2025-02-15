@@ -1,4 +1,20 @@
 .hero-section {
+    background: var(--background-placeholder-url) center center/cover no-repeat;
+    height: 85vh;
+}
+
+.movies-section .card {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.movies-section .card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.hero-section {
     height: 80vh;
     display: flex;
     justify-content: center;

@@ -55,4 +55,23 @@ public class SessionService : ISessionService
 
         return result;
     }
+
+    public IEnumerable<SessionWithMovieDTO> GetSessionsByMovie(int movieId)
+    {
+        var activeSessions = _sessionRepository
+            .GetAll()
+            .Where(s => s.TimeEnd > DateTime.Now && s.MovieId == movieId)
+            .ToList();
+
+        var sessionDTOs = _mapper.Map<IEnumerable<SessionDTO>>(activeSessions);
+        
+        var movie = _movieService.GetMovieById(movieId);
+
+        return sessionDTOs.Select(sessionDto => new SessionWithMovieDTO
+        {
+            Session = sessionDto,
+            Movie = movie
+        }).ToList();
+    }
+
 }

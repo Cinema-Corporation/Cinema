@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<BusinessLogic.DTOs.SessionWithMovieDTO>
 
+@{
+    ViewData["Title"] = "Sessions";
+}
+
 <div class="container my-4">
     <div class="accordion" id="sessionAccordion">
         @{
@@ -24,7 +28,7 @@
                             data-bs-target="#@collapseId"
                             aria-expanded="@(count <= visibleDates ? "true" : "false")"
                             aria-controls="@collapseId">
-                        📅 @dayGroup.Key.ToString("dddd, dd MMMM yyyy")
+                        @dayGroup.Key.ToString("dddd, dd MMMM yyyy")
                     </button>
                 </h2>
 
@@ -36,44 +40,47 @@
                             @foreach (var item in dayGroup.OrderBy(s => s.Session.TimeStart))
                             {
                                 <div class="col">
-                                    <div class="card mb-3 shadow-sm border-0" style="max-width: 540px;">
+                                    <div class="card my-2 shadow-sm" style="max-width: 540px;">
                                         <div class="row g-0">
                                             <!-- Movie Poster -->
-                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center p-1">
                                                 <img src="@($"https://image.tmdb.org/t/p/w500{item.Movie?.PosterUrl}")"
                                                      class="img-fluid rounded-start"
                                                      alt="@item.Movie?.Name"
                                                      width="200"
                                                      height="300"
-                                                     style="object-fit: contain; background-color: #f8f9fa;">
+                                                     style="object-fit: contain; border-radius: 10px">
                                             </div>
 
                                             <!-- Movie Info -->
                                             <div class="col-md-8">
-                                                <div class="card-body d-flex flex-column">
-                                                    <h5 class="card-title text-primary fw-bold">@item.Movie?.Name</h5>
+                                                <div class="card-body d-flex flex-column h-100">
+                                                    <a href="@Url.Action("Details", "Movies", new { id = item.Movie?.MovieId })" class="text-decoration-none text-dark">
+                                                        <h5 class="card-title fw-bold">@item.Movie?.Name</h5>
+                                                    </a>
 
                                                     @if (!string.IsNullOrWhiteSpace(item.Movie?.Description) && item.Movie.Description.Length > 120)
                                                     {
-                                                        <p class="card-text text-muted small">@item.Movie.Description.Substring(0, 120)...</p>
+                                                        <p class="card-text text-muted small">@item.Movie.Description.Substring(0, 40)...</p>
                                                     }
                                                     else
                                                     {
                                                         <p class="card-text text-muted small">@item.Movie?.Description</p>
                                                     }
 
-                                                    <ul class="list-unstyled small">
-                                                        <li><strong>⭐ Rating:</strong> @(item.Movie?.Rating.ToString("0.0"))</li>
-                                                        <li><strong>🕒 Duration:</strong> @item.Movie?.Duration min</li>
-                                                        <li><strong>⏰ Start:</strong> @item.Session.TimeStart.ToString("HH:mm")</li>
-                                                        <li><strong>⌛ End:</strong> @item.Session.TimeEnd.ToString("HH:mm")</li>
-                                                        <li><strong>🎭 Hall:</strong> @item.Session.HallId</li>
+                                                    <ul class="list-unstyled text-light small">
+                                                        <li><strong>Rating:</strong> <span class="badge custom-badge" style="font-size: small">@item.Movie?.Rating</span></li>
+                                                        <li><strong>Duration:</strong> <span class="badge custom-badge" style="font-size: small">@item.Movie?.GetFormattedDuration()</span></li>
+                                                        <li><strong>Start:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.TimeStart.ToString("HH:mm")</span></li>
+                                                        <li><strong>End:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.TimeEnd.ToString("HH:mm")</span></li>
+                                                        <li><strong>Hall:</strong> <span class="badge custom-badge" style="font-size: small">@item.Session.HallId</span></li>
                                                     </ul>
 
-                                                    <!-- "Buy Ticket" Button -->
-                                                    <a href="/buy-ticket/@item.Session.SessionId" class="btn btn-primary btn-sm mt-auto" target="_blank">
-                                                        🎟 Buy Ticket
-                                                    </a>
+                                                    <div class="mt-auto">
+                                                        <a href="/buy-ticket/@item.Session.SessionId" class="btn btn-outline w-100" target="_blank">
+                                                            Buy Ticket
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

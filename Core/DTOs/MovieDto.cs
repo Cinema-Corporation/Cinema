@@ -1,3 +1,5 @@
+using DataAccess.Entities;
+
 namespace BusinessLogic.DTOs;
 
 public class MovieDTO
@@ -10,4 +12,11 @@ public class MovieDTO
     public string? PosterUrl { get; set; }
     public string? TrailerUrl { get; set; }
     public bool Released { get; set; }
+
+    public string GetFormattedDuration()
+    {
+        var hours = Duration / 60;
+        var minutes = Duration % 60;
+        return $"{hours}h {minutes}m";
+    }
 }

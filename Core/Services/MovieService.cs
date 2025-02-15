@@ -27,4 +27,14 @@ public class MovieService : IMovieService
 
         return _mapper.Map<IEnumerable<MovieDTO>>(movies);
     }
+
+    public MovieDTO GetMovieById(int movieId)
+    {
+        var movie = _movieRepository
+            .GetAll()
+            .FirstOrDefault(m => m.Id == movieId);
+
+        return _mapper.Map<MovieDTO>(movie);
+    }
+
 }
