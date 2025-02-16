@@ -4,19 +4,18 @@ using WebApp.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using BusinessLogic.Services;
 namespace WebApp.Controllers;
 
 public class TicketController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public TicketController(AppDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public TicketController(AppDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
         _userManager = userManager;
-        _signInManager = signInManager;
     }
     public async Task<IActionResult> Index()
     {
