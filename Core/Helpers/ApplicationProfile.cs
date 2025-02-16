@@ -7,14 +7,31 @@ public class ApplicationProfile : Profile
 {
     public ApplicationProfile()
     {
-        CreateMap<PlacementDTO, Placement>().ReverseMap();
-        CreateMap<MovieDTO, Movie>().ReverseMap()
-            .ForMember(dest => dest.MovieId, opt => opt.MapFrom(src => src.Id))
+        CreateMap<PlacementDTO, Placement>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PlaceId))
             .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.MovieId)); ;
+            .ForMember(dest => dest.PlaceId, opt => opt.MapFrom(src => src.Id));
+
+        CreateMap<MovieDTO, Movie>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.MovieId))
+            .ReverseMap()
+            .ForMember(dest => dest.MovieId, opt => opt.MapFrom(src => src.Id));
+
         CreateMap<GenreDTO, Genre>().ReverseMap();
-        CreateMap<SessionDTO, Session>().ReverseMap();
-        CreateMap<TicketDTO, Ticket>().ReverseMap();
-        CreateMap<HallDTO, Hall>().ReverseMap();
+
+        CreateMap<SessionDTO, Session>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SessionId))
+            .ReverseMap()
+            .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.Id));
+
+        CreateMap<TicketDTO, Ticket>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TicketId))
+            .ReverseMap()
+            .ForMember(dest => dest.TicketId, opt => opt.MapFrom(src => src.Id));
+
+        CreateMap<HallDTO, Hall>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HallId))
+            .ReverseMap()
+            .ForMember(dest => dest.HallId, opt => opt.MapFrom(src => src.Id));
     }
 }
