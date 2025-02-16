@@ -1,40 +1,66 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
-using DataAccess.Repositories;
 using WebApp.Models;
 using WebApp.ViewModels;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 namespace WebApp.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly AppDbContext _context;
-    private readonly TmdbRepository _tmdbRepository;
 
-    public HomeController(ILogger<HomeController> logger, AppDbContext context, TmdbRepository tmdbRepository)
-    {
-        _logger = logger;
-        _context = context;
-        _tmdbRepository = tmdbRepository;
-    }
+    public HomeController(AppDbContext context) => _context = context;
 
-    public IActionResult Index()
+
+    public IActionResult Index(string filter)
     {
         var movies = _context.Movies.ToList();
 
-        var movieViewModels = movies.Select(movie => new MovieViewModel
+        if (filter == "released")
         {
-            Title = movie.Name,
-            PosterPath = movie.PosterUrl,
+            movies = movies.Where(m => m.Released == true).ToList();
+            ViewBag.Filter = "released";
+        }
+        else if (filter == "comingsoon")
+        {
+            movies = movies.Where(m => m.Released == false).ToList();
+            ViewBag.Filter = "comingsoon";
+        }
+        else
+        {
+            ViewBag.Filter = "released";
+        }
+
+        var model = movies.Select(m => new MovieViewModel
+        {
+            MovieId = m.Id,
+            Name = m.Name,
+            PosterUrl = m.PosterUrl,
+            Genres = GetGenresByMovieId(m.Id),
+            Released = m.Released
         }).ToList();
 
-        return View(movieViewModels);
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private List<string?> GetGenresByMovieId(int movieId)
+    {
+        var genres = _context.MovieGenres
+        .Where(mg => mg.MovieId == movieId)
+            .Join(
+                _context.Genres,
+                mg => mg.GenreId,
+                g => g.Id,
+                (mg, g) => g.Name
+            )
+            .ToList();
+
+        return genres;
     }
 }

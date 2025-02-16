@@ -1,7 +1,7 @@
-﻿using DataAccess.Entities;
+using DataAccess.Entities;
 using DataAccess.Tmdb;
 
-namespace DataAccess.Interfaces
+public interface ITmdb
 {
     public interface ITmdb
     {

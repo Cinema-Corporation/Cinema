@@ -1,8 +1,6 @@
-using AutoMapper;
 using BusinessLogic.DTOs;
 using DataAccess.Entities;
-using DataAccess.Tmdb;
-
+using AutoMapper;
 namespace BusinessLogic.Helpers;
 
 public class ApplicationProfile : Profile
@@ -18,7 +16,5 @@ public class ApplicationProfile : Profile
         CreateMap<SessionDTO, Session>().ReverseMap();
         CreateMap<TicketDTO, Ticket>().ReverseMap();
         CreateMap<HallDTO, Hall>().ReverseMap();
-        CreateMap<MovieSearchDTO, MovieSearchItem>().ReverseMap();
-        CreateMap<UserDTO, User>().ReverseMap();
     }
 }

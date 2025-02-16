@@ -1,0 +1,63 @@
+.hero-section {
+    background: var(--background-placeholder-url) center center/cover no-repeat;
+    height: 85vh;
+}
+
+.movies-section .card {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.movies-section .card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.hero-section {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('https://via.placeholder.com/1920x800') center/cover no-repeat;
+    position: relative;
+    border-radius: 20px;
+}
+
+.movies-section {
+    background-color: #212121;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+    margin-bottom: 0px;
+}
+
+.card {
+    background-color: #121212;
+    border: 2px solid #d236d3;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    border: 3px solid #d236d3;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-body {
+    border-radius: 20px;
+}
+
+.card-title {
+    color: #d236d3;
+}
+
+.card-footer {
+    background-color: #121212;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}

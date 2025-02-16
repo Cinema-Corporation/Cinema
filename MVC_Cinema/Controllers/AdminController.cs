@@ -1,7 +1,4 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
-using WebApp.ViewModels;
 using DataAccess.Entities;
 using DataAccess.Repositories;
 using DataAccess.Tmdb;
@@ -30,22 +27,26 @@ public class AdminController : Controller
         var movies = _context.Movies.ToList();
         return View(movies);
     }
+
     public IActionResult SelectMovie(int MovieId)
     {
         var movie = _context.Movies.Find(MovieId);
         return View("EditMovie", movie);
     }
+
     public IActionResult EditMovie(Movie movie)
     {
         _context.Movies.Update(movie);
         _context.SaveChanges();
         return RedirectToAction("Movies");
     }
+
     public IActionResult DeleteMovie(int MovieId)
     {
         _adminService.DeleteMovie(MovieId);
         return RedirectToAction("Movies");
     }
+
     public IActionResult Movie()
     {
         var MovieAndGenres = new MovieAndGenres
@@ -119,6 +120,7 @@ public class AdminController : Controller
         };
         return View( "EditSession" ,sessionMovies);
     }
+
     public IActionResult EditSession(Session session)
     {
         session.TimeEnd = session.TimeStart.AddMinutes(_context.Movies.Find(session.MovieId).Duration);
@@ -154,6 +156,18 @@ public class AdminController : Controller
     public IActionResult Session()
     {
         return View("AddSession", new SessionMoviesViewModel { Movies = _context.Movies.ToList(), Session = new Session() });
+    }
+
+    public IActionResult DeleteSession(int SessionId)
+    {
+        var session = _context.Sessions.Find(SessionId);
+        if(session == null)
+        {
+            return NotFound();
+        }
+        _context.Sessions.Remove(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

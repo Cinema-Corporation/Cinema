@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+namespace DataAccess.Entities.Configurations;
 
-namespace DataAccess.Entities.Configurations
+public class MovieConfiguration : IEntityTypeConfiguration<Movie>
 {
-    public class MovieConfiguration : IEntityTypeConfiguration<Movie>
+    public void Configure(EntityTypeBuilder<Movie> builder)
     {
-        public void Configure(EntityTypeBuilder<Movie> builder)
-        {
-            builder.HasKey(m => m.Id);
-        }
+        builder.HasKey(m => m.Id);
     }
 }
