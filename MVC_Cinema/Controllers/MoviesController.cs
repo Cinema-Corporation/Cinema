@@ -14,8 +14,8 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var movies = await _tmdbRepository.GetLatestMoviesAsync();
-            return View(movies); 
+            //var movies = await _tmdbRepository.GetLatestMoviesAsync();
+            return View(); 
         }
     }
 }

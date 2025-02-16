@@ -1,0 +1,75 @@
+@using DataAccess.Entities
+@model BusinessLogic.DTOs.MovieAndGenres
+
+@{
+    ViewData["Title"] = "Add Movie";
+}
+<form asp-action="AddMovie" asp-controller="Admin">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Movie.Name" class="control-label"></label>
+            <input asp-for="Movie.Name" class="form-control" required/>
+            <span asp-validation-for="Movie.Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Movie.Description" class="control-label"></label>
+            <input asp-for="Movie.Description" class="form-control" required/>
+            <span asp-validation-for="Movie.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Movie.Duration" class="control-label"></label>
+            <input asp-for="Movie.Duration" class="form-control" type="number" required min="1"/>
+            <span asp-validation-for="Movie.Duration" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Movie.Rating" class="control-label"></label>
+            <input asp-for="Movie.Rating" class="form-control" type="number" step="0.1" required min="0" max="10"/>
+            <span asp-validation-for="Movie.Rating" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label asp-for="Movie.PosterUrl" class="control-label"></label>
+            <input asp-for="Movie.PosterUrl" class="form-control" required/>
+            <span asp-validation-for="Movie.PosterUrl" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Movie.TrailerUrl" class="control-label"></label>
+            <input asp-for="Movie.TrailerUrl" class="form-control" required/>
+            <span asp-validation-for="Movie.TrailerUrl" class="text-danger"></span>
+        </div>
+    </div>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <label asp-for="Movie.Released" class="control-label"></label>
+        <input asp-for="Movie.Released" type="checkbox"/>
+        <span asp-validation-for="Movie.Released" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="MovieGenres" class="control-label">Genres</label>
+        <div id="genres-container">
+            @for (int i = 0; i < Model.MovieGenres.Count(); i++)
+            {
+                <select asp-for="MovieGenres[i].GenreId" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))" class="form-control"></select>
+            }
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addGenre()">Add Genre</button>
+    </div>
+</div>
+
+<script>
+    function addGenre() {
+        var html = '<select class="form-control" name="MovieGenres[' + $('#genres-container select').length + '].GenreId">';
+        @foreach (var genre in Model.Genres)
+        {
+            <text>html += '<option value="@genre.Id">@genre.Name</option>';</text>
+        }
+        html += '</select><input type="hidden" name="MovieGenres[' + $('#genres-container select').length + '].MovieId" value="@Model.Movie.Id"/>';
+        $('#genres-container').append(html);
+    }
+</script>
+```
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

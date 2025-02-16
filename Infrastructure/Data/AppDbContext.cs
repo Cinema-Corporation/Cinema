@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
+using DataAccess.Configurations;
 
 namespace DataAccess.Data;
 
@@ -16,6 +17,8 @@ public class AppDbContext : DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
 
+    public DbSet<MovieGenre> MovieGenres { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -27,5 +30,6 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new SessionConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
     }
 }

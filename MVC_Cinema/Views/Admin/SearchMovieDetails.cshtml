@@ -1,0 +1,52 @@
+﻿@model DataAccess.Tmdb.MovieSearchItem
+
+@{
+    ViewData["Title"] = "Movie details";
+
+    var trailer = Model.MovieTrailerResult?.Results?
+        .FirstOrDefault(v => v.Type == "Trailer" && v.Site == "YouTube")?.Key;
+}
+
+<div class="container mt-4">
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-4 d-flex justify-content-center">
+                <img src="https://image.tmdb.org/t/p/w300@(Model.PosterPath)">
+            </div>
+            <div class="col-md-8">
+                
+                <h2>@Model.Title</h2>
+                <p>@Model.Status</p>
+                <p class="text-muted">Vote average: ⭐ @Model.Rating</p>
+                <p>@Model.Description</p>
+                <p><strong>Duration:</strong> @Model.Duration min.</p>
+
+                @if (!string.IsNullOrEmpty(trailer))
+                {
+                    <iframe width="500" height="300" src="https://www.youtube.com/embed/@trailer" frameborder="0" allowfullscreen></iframe>
+                }
+                
+                <br>
+                <form asp-action="AddSearchMovie" asp-controller="Admin">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="Title" value="@Model.Title" />
+                    <input type="hidden" asp-for="PosterPath" value="@Model.PosterPath" />
+                    <input type="hidden" asp-for="Description" value="@Model.Description" />
+                    <input type="hidden" asp-for="Rating" value="@Model.Rating" />
+                    <input type="hidden" asp-for="Duration" value="@Model.Duration" />
+                    <input type="hidden" asp-for="Status" value="@Model.Status" />
+                    <input type="hidden" asp-for="TrailerUrl" value="@trailer" />
+                    <a href="/Admin/SearchMovie" class="btn btn-primary" style="max-width: 150px">Back to search</a>
+                    <button type="submit" class="btn btn-primary" style="max-width: 150px">Add to movies</button>
+                </form>
+                
+                
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="alert alert-warning">Movie not found.</p>
+    }
+</div>

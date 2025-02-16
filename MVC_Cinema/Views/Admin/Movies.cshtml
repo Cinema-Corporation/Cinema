@@ -1,0 +1,18 @@
+@model IEnumerable<DataAccess.Entities.Movie>
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<a class="btn btn-primary" style="margin-bottom: 5px;" asp-action="Movie" asp-controller="Admin">Add movie</a>
+<a class="btn btn-primary" style="margin-bottom: 5px;" asp-action="Search" asp-controller="Admin">Search movie</a>
+
+<div class="row">
+    @foreach (var movie in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <a asp-action="SelectMovie" asp-controller="Admin" asp-route-MovieId="@movie.Id">@movie.Name</a>
+            </div>
+        </div>
+    }
+</div>

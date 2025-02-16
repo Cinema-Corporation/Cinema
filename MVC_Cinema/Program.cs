@@ -5,7 +5,6 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using DataAccess;
 using DataAccess.Data;
-using DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +23,7 @@ builder.Services.AddRepository();
 
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<AdminService>();
 
 builder.Services.AddTmdbRepository(config.ApiKey);
 

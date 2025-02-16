@@ -2,8 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.Data;
 using DataAccess.Repositories;
-using DataAccess.Tmdb;
 using WebApp.Models;
+using WebApp.ViewModels;
 namespace WebApp.Controllers;
 
 public class HomeController : Controller
@@ -19,15 +19,14 @@ public class HomeController : Controller
         _tmdbRepository = tmdbRepository;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
-        await _tmdbRepository.SaveLatestMoviesToDatabaseAsync();
-        var movies = await _tmdbRepository.GetLatestMoviesAsync();
+        var movies = _context.Movies.ToList();
 
         var movieViewModels = movies.Select(movie => new MovieViewModel
         {
-            Title = movie.Title,
-            PosterPath = movie.PosterPath
+            Title = movie.Name,
+            PosterPath = movie.PosterUrl,
         }).ToList();
 
         return View(movieViewModels);
