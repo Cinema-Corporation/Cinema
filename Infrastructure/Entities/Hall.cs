@@ -6,5 +6,6 @@ public class Hall : IEntity
 {
     [Column("HallId")]
     public int Id { get; set; }
-    public string? Capacity { get; set; }
+    public int RowsCount { get; set; }
+    public int ColumnsCount { get; set; }
 }
