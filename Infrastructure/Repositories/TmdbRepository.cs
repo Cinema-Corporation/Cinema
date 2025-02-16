@@ -3,17 +3,19 @@ using DataAccess.Entities;
 using DataAccess.Interfaces;
 using DataAccess.Tmdb;
 using Newtonsoft.Json;
-namespace DataAccess.Repositories;
 
-public class TmdbRepository : ITmdb
+namespace DataAccess.Repositories
 {
-    private readonly string? _apiKey;
-    private readonly AppDbContext _context;
-    public TmdbRepository(string apiKey, AppDbContext context)
+    public class TmdbRepository : ITmdb
     {
-        _apiKey = apiKey;
-        _context = context;
-    }
+        private readonly string? _apiKey;
+        private readonly AppDbContext _context;
+        public TmdbRepository(string apiKey, AppDbContext context)
+        {
+            _apiKey = apiKey;
+            _context = context;
+        }
+
         public async Task<List<MovieSearchItem>> SearchMoviesAsync(string query)
         {
             var url = $"https://api.themoviedb.org/3/search/movie?api_key={_apiKey}&query={Uri.EscapeDataString(query)}";
@@ -101,27 +103,22 @@ public class TmdbRepository : ITmdb
         {
             var url = $"https://api.themoviedb.org/3/movie/now_playing?api_key={_apiKey}&page=1";
 
-        using var client = new HttpClient();
-        var response = await client.GetAsync(url);
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpRequestException($"Не вдалося отримати список фільмів: {response.StatusCode}");
-        }
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Не вдалося отримати список фільмів: {response.StatusCode}");
+            }
 
-        var json = await response.Content.ReadAsStringAsync();
-        var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(json);
+            var json = await response.Content.ReadAsStringAsync();
+            var searchResult = JsonConvert.DeserializeObject<MovieSearchResult>(json);
 
-        var movieItems = new List<MovieSearchItem>();
+            var movieItems = new List<MovieSearchItem>();
 
-        var topMovies = searchResult?.Results.Take(10);
+            var topMovies = searchResult?.Results.Take(10);
 
-        foreach (var movie in searchResult.Results)
-        {
-            var trailerUrlKey = await GetMovieTrailerKeyAsync(movie.Id);
-            var runtime = await GetMovieRuntimeAsync(movie.Id);
-
-            movieItems.Add(new MovieSearchItem
+            foreach (var movie in searchResult.Results)
             {
                 var trailerUrlKey = await GetMovieTrailerKeyAsync(movie.Id);
                 var runtime = await GetMovieRuntimeAsync(movie.Id);
@@ -220,13 +217,10 @@ public class TmdbRepository : ITmdb
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/videos?api_key={_apiKey}";
 
-        var existingMovieTitles = _context.Movies
-            .Select(m => m.Name)
-            .ToHashSet();
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
 
-        var newMovies = movies
-            .Where(m => !existingMovieTitles.Contains(m.Title))
-            .Select(m => new Movie
+            if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
@@ -243,24 +237,21 @@ public class TmdbRepository : ITmdb
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
 
-        var json = await response.Content.ReadAsStringAsync();
-        var videoResult = JsonConvert.DeserializeObject<MovieTrailerResult>(json);
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
 
-        return videoResult?.Results?.FirstOrDefault()?.Key;
-    }
+            if (!response.IsSuccessStatusCode)
+            {
+                return 0;
+            }
 
-    private async Task<int> GetMovieRuntimeAsync(int movieId)
-    {
-        var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
+            var json = await response.Content.ReadAsStringAsync();
+            var movieDetails = JsonConvert.DeserializeObject<MovieRunTime>(json);
 
-        using var client = new HttpClient();
-        var response = await client.GetAsync(url);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            return 0;
+            return movieDetails?.Runtime ?? 0;
         }
-        return movieDetails?.Runtime ?? 0;
+        #endregion
     }
-    #endregion
+
+
 }

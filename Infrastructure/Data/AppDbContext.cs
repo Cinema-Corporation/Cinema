@@ -2,7 +2,6 @@ using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.Configurations;
 
 
 namespace DataAccess.Data;
@@ -20,7 +19,6 @@ public class AppDbContext : IdentityDbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
 
-    public DbSet<MovieGenre> MovieGenres { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

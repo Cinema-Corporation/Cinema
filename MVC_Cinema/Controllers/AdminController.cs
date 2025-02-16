@@ -4,7 +4,10 @@ using DataAccess.Repositories;
 using DataAccess.Tmdb;
 using BusinessLogic.Services;
 using BusinessLogic.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using WebApp.ViewModels;
+using System.Diagnostics;
 namespace WebApp.Controllers;
 
 public class AdminController : Controller
@@ -158,17 +161,6 @@ public class AdminController : Controller
         return View("AddSession", new SessionMoviesViewModel { Movies = _context.Movies.ToList(), Session = new Session() });
     }
 
-    public IActionResult DeleteSession(int SessionId)
-    {
-        var session = _context.Sessions.Find(SessionId);
-        if(session == null)
-        {
-            return NotFound();
-        }
-        _context.Sessions.Remove(session);
-        _context.SaveChanges();
-        return RedirectToAction("Sessions");
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
