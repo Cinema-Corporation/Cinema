@@ -18,8 +18,8 @@ else
 
         <div class="card mb-4">
             <div class="card-body">
-                <p>Title: @(movie?.Name ?? "Невідомий фільм")</p>
-                <p>Start: @(session?.TimeStart.ToString("dd.MM.yyyy HH:mm") ?? "Невідома дата")</p>
+                <p>Title: @(movie?.Name ?? "Unknown movie")</p>
+                <p>Start: @(session?.TimeStart.ToString("dd.MM.yyyy HH:mm") ?? "Unknown date")</p>
                 <p>End: @(session?.TimeEnd.ToString("dd.MM.yyyy HH:mm"))<p>
                 <p>Price: @ticket.Price</p>
                 <p>Seat: Row:@placement.Row Col:@placement.Column @if(placement.Luxe == true){<p>Luxe</p>}else{<p>Regular</p>}</p>
