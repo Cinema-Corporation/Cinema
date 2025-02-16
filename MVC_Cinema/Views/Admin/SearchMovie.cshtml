@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Search Movies";
+}
+
+<h1>Movie Search</h1>
+
+<form asp-controller="Admin" asp-action="SearchMovie" method="get" class="d-flex align-items-center gap-2 ms-3">
+    <input type="text" name="query" class="form-control w-25" placeholder="Enter the movie title" />
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-search"></i> Пошук
+    </button>
+</form>
+
+
+@if (Model != null)
+{
+    <h2 class="mt-4">Search results:</h2>
+    <ul class="list-group mt-2">
+        @foreach (var movie in Model)
+        {
+            <li class="list-group-item">
+                <a asp-controller="Admin" asp-action="SearchMovieDetails" asp-route-id="@movie.Id">
+                    @movie.Title
+                </a> - Rating: @movie.Rating
+            </li>
+        }
+    </ul>
+}
+else if (Model != null)
+{
+    <p class="mt-3 text-muted">Фільми не знайдені.</p>
+}
+

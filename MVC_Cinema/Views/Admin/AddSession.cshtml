@@ -3,21 +3,17 @@
 @{
     ViewData["Title"] = "Edit Movie";
 }
-<form asp-action="EditSession" asp-controller="Admin">
+<form asp-action="AddSession" asp-controller="Admin">
     <input type="hidden" asp-for="Session.Id" value="@Model.Session.Id" />
     <div class="row mb-4">
         <div class="col-md-4">
             <label asp-for="Session.TimeStart" class="control-label"></label>
-            <input asp-for="Session.TimeStart" class="form-control" type="datetime-local" value="@Model.Session.TimeStart.ToString("yyyy-MM-ddTHH:mm")" />
-        </div>
-        <div class="col-md-4">
-            <label asp-for="Session.TimeEnd" class="control-label"></label>
-            <input asp-for="Session.TimeEnd" class="form-control" type="datetime-local" value="@Model.Session.TimeEnd.ToString("yyyy-MM-ddTHH:mm")" />
+            <input asp-for="Session.TimeStart" class="form-control" type="datetime-local" id="timeStart" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"/>
         </div>
     </div>
     <div class="row mb-4">
         <div class="col-md-4">
-            <label asp-for="Session.HallId" class="control-label"></label>
+            <label asp-for="Session.HallId" class="control-label">Hall</label>
             <select asp-for="Session.HallId" class="form-control">
                 @for (int i = 1; i <= 5; i++)
                 {
@@ -26,7 +22,7 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label asp-for="Session.MovieId" class="control-label"></label>
+            <label asp-for="Session.MovieId" class="control-label">Movie</label>
             <select asp-for="Session.MovieId" class="form-control">
                 @foreach (var movie in Model.Movies)
                 {

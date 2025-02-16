@@ -1,18 +1,26 @@
 using DataAccess.Data;
 using DataAccess.Entities;
-using WebApp.ViewModels;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using DataAccess.Repositories;
+using DataAccess.Tmdb;
+using BusinessLogic.Services;
+using BusinessLogic.DTOs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WebApp.Controllers;
 
 public class AdminController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly TmdbRepository _tmdbRepository;
+    private readonly AdminService _adminService;
+    
 
-    public AdminController(AppDbContext context)
+    public AdminController(AppDbContext context, TmdbRepository tmdbRepository, AdminService adminService)
     {
         _context = context;
+        _tmdbRepository = tmdbRepository;
+        _adminService = adminService;
     }
+    
 
     public IActionResult Movies()
     {
@@ -35,55 +43,119 @@ public class AdminController : Controller
 
     public IActionResult DeleteMovie(int MovieId)
     {
-        var movie = _context.Movies.Find(MovieId);
-        if(movie == null)
-        {
-            return NotFound();
-        }
-        _context.Movies.Remove(movie);
-        _context.SaveChanges();
+        _adminService.DeleteMovie(MovieId);
         return RedirectToAction("Movies");
     }
 
     public IActionResult Movie()
     {
-        return View("AddMovie");
+        var MovieAndGenres = new MovieAndGenres
+        {
+            Movie = new Movie(),
+            Genres = _context.Genres.ToList(),
+            MovieGenres = new List<MovieGenre>()
+        };
+        return View("AddMovie", MovieAndGenres);
     }
 
-    public IActionResult AddMovie(Movie movie)
+    public IActionResult Search()
     {
-        if (movie.Name == null || movie.PosterUrl == null || movie.Description == null || movie.Duration == 0 || movie.TrailerUrl == null || movie.Rating == 0) 
+        return View("SearchMovie");
+    }
+
+    public async Task<IActionResult> SearchMovie(string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
         {
-            return View("Error", new ErrorViewModel { RequestId = "Invalid movie data." });
+            return View(new List<MovieSearchItem>());
         }
-        _context.Movies.Add(movie);
-        _context.SaveChanges();
+
+        var movies = await _tmdbRepository.SearchMoviesAsync(query);
+        return View(movies);
+    }
+
+    [HttpGet("SearchMovieDetails/{id}")]
+    public async Task<IActionResult> SearchMovieDetails(int id)
+    {
+        var movieDetails = await _tmdbRepository.GetMovieDetailsAsync(id);
+        if (movieDetails == null)
+        {
+            return NotFound();
+        }
+
+        return View(movieDetails);
+    }
+    public IActionResult AddMovie(MovieAndGenres movieAndGenres)
+    {
+        _adminService.AddMovie(movieAndGenres);
+        return RedirectToAction("Movies");
+    }
+
+    public async Task<IActionResult> AddSearchMovie(MovieSearchItem movie)
+    {
+        await _adminService.AddSearchMovie(movie);
         return RedirectToAction("Movies");
     }
 
     public IActionResult Sessions()
     {
-        var MovieSessions = new SessionMovieViewModel
+        var MovieSessions = new SessionsMoviesViewModel
         {
             Movies = [.. _context.Movies],
             Sessions = [.. _context.Sessions]
         };
         return View(MovieSessions);
     }
-
-    public IActionResult Session(int SessionId)
+    public IActionResult SelectSession(int id)
     {
-        var movies = _context.Movies.ToList();
-        var session = _context.Sessions.Find(SessionId);
-        var movieSessions = new EditSessionViewModel(movies, session);
-        return View("EditSession",movieSessions);
+        var session = _context.Sessions.Find(id);
+        
+        if (session == null)
+            return NotFound();
+        
+        var sessionMovies = new SessionMoviesViewModel
+        {
+            Movies = _context.Movies.ToList(),
+            Session = session
+        };
+        return View( "EditSession" ,sessionMovies);
     }
 
     public IActionResult EditSession(Session session)
     {
+        session.TimeEnd = session.TimeStart.AddMinutes(_context.Movies.Find(session.MovieId).Duration);
         _context.Sessions.Update(session);
         _context.SaveChanges();
         return RedirectToAction("Sessions");
+    }
+    public IActionResult DeleteSession(int id)
+    {
+        var session = _context.Sessions.Find(id);
+        if(session == null)
+        {
+            return NotFound();
+        }
+        _context.Sessions.Remove(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
+    }
+    public IActionResult AddSession(Session session)
+    {
+        if(session.MovieId == 0 || session.TimeStart == DateTime.MinValue)
+            return View("Error", new ErrorViewModel { RequestId = "Invalid session data." });
+        
+        session.TimeEnd = session.TimeStart.AddMinutes(_context.Movies.Find(session.MovieId).Duration);
+
+        if(session.TimeEnd < DateTime.Now)
+            return View("Error", new ErrorViewModel { RequestId = "Session time is in the past." });
+        
+        _context.Sessions.Add(session);
+        _context.SaveChanges();
+        return RedirectToAction("Sessions");
+    }
+    public IActionResult Session()
+    {
+        return View("AddSession", new SessionMoviesViewModel { Movies = _context.Movies.ToList(), Session = new Session() });
     }
 
     public IActionResult DeleteSession(int SessionId)
