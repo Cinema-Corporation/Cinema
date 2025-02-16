@@ -1,0 +1,29 @@
+@model TicketSessionMovie
+
+@{
+    ViewData["Title"] = "My Tickets";
+}
+<h1>My Tickets</h1>
+@if (Model.Tickets.Count == 0)
+{
+    <p>You have no tickets.</p>
+}
+else
+{
+    @foreach (var ticket in Model.Tickets)
+    {
+        var session = Model.Sessions.First(t => t.Id == ticket.SessionId);
+        var placement = Model.Placements.First(p => p.Id == ticket.PlaceId);
+        var movie = Model.Movies.First(m => m.Id == session.MovieId);
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <p>Title: @(movie?.Name ?? "Невідомий фільм")</p>
+                <p>Start: @(session?.TimeStart.ToString("dd.MM.yyyy HH:mm") ?? "Невідома дата")</p>
+                <p>End: @(session?.TimeEnd.ToString("dd.MM.yyyy HH:mm"))<p>
+                <p>Price: @ticket.Price</p>
+                <p>Seat: Row:@placement.Row Col:@placement.Column @if(placement.Luxe == true){<p>Luxe</p>}else{<p>Regular</p>}</p>
+            </div>
+        </div>
+    }
+}
