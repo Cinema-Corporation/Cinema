@@ -1,0 +1,15 @@
+﻿@model BusinessLogic.DTOs.TicketDTO
+@{
+    ViewData["Title"] = "Purchase Success";
+}
+
+<h2>Purchase Successful!</h2>
+<div>
+    <p><strong>Ticket ID:</strong> @Model.TicketId</p>
+    <p><strong>Session ID:</strong> @Model.SessionId</p>
+    <p><strong>Place ID:</strong> @Model.PlaceId</p>
+    <p><strong>Price:</strong> @Model.Price</p>
+    <p><strong>Payment Date:</strong> @Model.PaymentDate</p>
+</div>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>
