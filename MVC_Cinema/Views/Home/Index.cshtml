@@ -76,10 +76,10 @@
                                     @if (ViewBag.Filter == "released")
                                     {
                                         <a class="btn btn-outline w-50 me-2"
-                                            asp-area=""
-                                            asp-controller="Sessions"
-                                            asp-action="ByMovie"
-                                            asp-route-id="@movie.MovieId">
+                                           asp-area=""
+                                           asp-controller="Ticket"
+                                           asp-action="ChooseSession"
+                                           asp-route-movieId="@movie.MovieId">
                                             Buy Tickets
                                         </a>
                                     }
