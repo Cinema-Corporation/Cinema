@@ -2,8 +2,9 @@ using BusinessLogic.DTOs;
 using DataAccess.Entities;
 namespace BusinessLogic.Interfaces;
 
-public interface ITicketsService
+public interface ITicketService
 {
-    IEnumerable<Ticket> GetAvailiblePlacements(int sessionId);
-    TicketDTO BuyTicket(int sessionId, Ticket ticket);
+    IEnumerable<PlacementDTO> GetAvailablePlacementsForSession(int sessionId);
+    TicketDTO BuyTicket(int sessionId, int placeId, string userId);
+    TicketDTO? GetTicketById(int ticketId);
 }
