@@ -1,15 +1,21 @@
 ﻿@model BusinessLogic.DTOs.TicketDTO
+
 @{
-    ViewData["Title"] = "Purchase Success";
+    ViewData["Title"] = "Purchase Successul";
 }
 
-<h2>Purchase Successful!</h2>
-<div>
-    <p><strong>Ticket ID:</strong> @Model.TicketId</p>
-    <p><strong>Session ID:</strong> @Model.SessionId</p>
-    <p><strong>Place ID:</strong> @Model.PlaceId</p>
-    <p><strong>Price:</strong> @Model.Price</p>
-    <p><strong>Payment Date:</strong> @Model.PaymentDate</p>
+<div class="auth-container">
+    <form id="account" method="post">
+        <h1 class="fw-bold">@ViewData["Title"]!</h1>
+        <div>
+            <p><strong>Ticket ID: </strong><span class="badge custom-badge">@Model.TicketId</span></p>
+            <p><strong>Session ID: </strong><span class="badge custom-badge">@Model.SessionId</span></p>
+            <p><strong>Place ID: </strong><span class="badge custom-badge">@Model.PlaceId</span></p>
+            <p><strong>Price: </strong><span class="badge custom-badge">@Model.Price₴</span></p>
+            <p><strong>Payment Date: </strong><span class="badge custom-badge">@Model.PaymentDate</span></p>
+        </div>
+    </form>
+    <div class="text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>
+    </div>
 </div>
-
-<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>

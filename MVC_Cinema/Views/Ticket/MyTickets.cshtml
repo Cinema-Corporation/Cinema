@@ -1,9 +1,10 @@
-@model TicketSessionMovie
+﻿@model TicketSessionMovie
 
 @{
     ViewData["Title"] = "My Tickets";
 }
 <link rel="stylesheet" href="~/css/my-tickets.css" />
+
 <div class="container text-light my-tickets">
     <h1 class="text-center mb-4">My Tickets</h1>
     @if (Model.Tickets.Count == 0)
@@ -39,7 +40,7 @@
                                         <h5 class="card-title fw-bold">@movie?.Name</h5>
                                     </a>
                                     <ul class="list-unstyled">
-                                        <li><strong>Price:</strong> <span class="badge custom-badge mb-1">$@ticket.Price</span></li>
+                                        <li><strong>Price:</strong> <span class="badge custom-badge mb-1">@ticket.Price₴</span></li>
                                         <li><strong>Start:</strong> <span class="badge custom-badge mb-1">@session?.TimeStart.ToString("dd.MM.yyyy HH:mm")</span></li>
                                         <li><strong>End:</strong> <span class="badge custom-badge mb-1">@session?.TimeEnd.ToString("dd.MM.yyyy HH:mm")</span></li>
                                         <li><strong>Hall:</strong> <span class="badge custom-badge mb-1">@session?.HallId</span></li>
