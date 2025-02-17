@@ -3,44 +3,47 @@
 @{
     ViewData["Title"] = "Edit Movie";
 }
-<form asp-action="EditMovie" asp-controller="Admin">
-    <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" value="@Model.Name" />
+
+<div class="container movies-section" style="max-width: calc(100% - 40px);">
+    <form asp-action="EditMovie" asp-controller="Admin">
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" value="@Model.Name" />
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" value="@Model.Description" />
+            </div>
         </div>
-        <div class="col-md-4">
-            <label asp-for="Description" class="control-label"></label>
-            <input asp-for="Description" class="form-control" value="@Model.Description" />
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" type="number" value="@Model.Duration"/>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" type="number" step="0.1" value="@Model.Rating"/>
+            </div>
         </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <label asp-for="Duration" class="control-label"></label>
-            <input asp-for="Duration" class="form-control" type="number" value="@Model.Duration"/>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label asp-for="PosterUrl" class="control-label"></label>
+                <input asp-for="PosterUrl" class="form-control" value="@Model.PosterUrl"/>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="TrailerUrl" class="control-label"></label>
+                <input asp-for="TrailerUrl" class="form-control" value="@Model.TrailerUrl"/>
+            </div>
         </div>
-        <div class="col-md-4">
-            <label asp-for="Rating" class="control-label"></label>
-            <input asp-for="Rating" class="form-control" type="number" step="0.1" value="@Model.Rating"/>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label asp-for="Released" class="control-label"></label>
+                <input asp-for="Released" type="checkbox"/>
+            </div>
         </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <label asp-for="PosterUrl" class="control-label"></label>
-            <input asp-for="PosterUrl" class="form-control"  value="@Model.PosterUrl"/>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="TrailerUrl" class="control-label"></label>
-            <input asp-for="TrailerUrl" class="form-control"  value="@Model.TrailerUrl"/>
-        </div>
-    </div>
-   <div class="row mb-4">
-        <div class="col-md-4">
-            <label asp-for="Released" class="control-label"></label>
-            <input asp-for="Released" type="checkbox"/>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a class="btn btn-primary" asp-action="DeleteMovie" asp-controller="Admin" asp-route-MovieId="@Model.Id">Delete</a>
-</form>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-primary" asp-action="DeleteMovie" asp-controller="Admin" asp-route-MovieId="@Model.Id">Delete</a>
+    </form>
+</div>
