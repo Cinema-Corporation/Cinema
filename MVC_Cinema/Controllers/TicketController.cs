@@ -1,10 +1,7 @@
 using DataAccess.Data;
-using WebApp.Models;
 using WebApp.ViewModels;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using BusinessLogic.Services;
 using Microsoft.AspNetCore.Authorization;
 using BusinessLogic.Interfaces;
 using System.Security.Claims;

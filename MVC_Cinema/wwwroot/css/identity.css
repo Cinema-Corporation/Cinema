@@ -73,6 +73,10 @@
     border-bottom-right-radius: 20px;
 }
 
+.input-group-text:hover {
+    color: #ffffff;
+}
+
 .text-success {
     color: #d236d3 !important;
 }
