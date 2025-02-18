@@ -26,9 +26,12 @@
                             </ul>
                         </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Ticket" asp-action="MyTickets">My Tickets</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Ticket" asp-action="MyTickets">My Tickets</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />
