@@ -14,24 +14,14 @@ public class TicketController : Controller
     private readonly UserManager<IdentityUser> _userManager;
 
     private readonly ITicketService _ticketService;
-    private readonly ISessionService _sessionService;
 
     public TicketController(AppDbContext context,
         UserManager<IdentityUser> userManager,
-        ITicketService ticketService,
-        ISessionService sessionService)
+        ITicketService ticketService)
     {
         _context = context;
         _userManager = userManager;
         _ticketService = ticketService;
-        _sessionService = sessionService;
-    }
-
-    public IActionResult ChooseSession(int movieId)
-    {
-        var sessions = _sessionService.GetActiveSessionsByMovie(movieId);
-        ViewBag.MovieId = movieId;
-        return View(sessions);
     }
 
     public IActionResult ChooseSeat(int sessionId)
