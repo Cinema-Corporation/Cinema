@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using BusinessLogic;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
@@ -6,6 +5,7 @@ using DataAccess;
 using DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

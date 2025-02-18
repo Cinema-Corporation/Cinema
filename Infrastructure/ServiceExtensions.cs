@@ -1,10 +1,8 @@
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DataAccess.Data;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
-
 namespace DataAccess;
 
 public static class ServiceExtensions

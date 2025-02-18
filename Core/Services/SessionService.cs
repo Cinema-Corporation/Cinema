@@ -11,7 +11,7 @@ public class SessionService : ISessionService
     private readonly IMapper _mapper;
     private readonly IRepository<Session> _sessionRepository;
     private readonly IMovieService _movieService;
-
+    
     public SessionService(IMapper mapper,
         IRepository<Session> sessionRepository,
         IMovieService movieService)

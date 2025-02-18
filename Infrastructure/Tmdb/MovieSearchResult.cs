@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
+namespace DataAccess.Tmdb;
 
-namespace DataAccess.Tmdb
+public class MovieSearchResult
 {
-    public class MovieSearchResult
-    {
-        [JsonProperty("results")]
-        public List<MovieSearchItem> Results { get; set; } = [];
-    }
+    [JsonProperty("results")]
+    public List<MovieSearchItem> Results { get; set; } = [];
 }

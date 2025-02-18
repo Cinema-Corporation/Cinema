@@ -2,8 +2,6 @@ using DataAccess.Entities;
 using DataAccess.Entities.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
-
 namespace DataAccess.Data;
 
 public class AppDbContext : IdentityDbContext

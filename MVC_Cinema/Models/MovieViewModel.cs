@@ -30,4 +30,5 @@ public class MovieViewModel
 
         return genres;
     }
+
 }

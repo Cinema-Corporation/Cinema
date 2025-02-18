@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 
-namespace BusinessLogic.Services
+namespace BusinessLogic.Services;
+
+public class DummyEmailSender : IEmailSender
 {
-    public class DummyEmailSender : IEmailSender
+    public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

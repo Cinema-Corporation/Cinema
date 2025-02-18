@@ -1,4 +1,3 @@
-using DataAccess.Data;
 using BusinessLogic.DTOs;
 using DataAccess.Tmdb;
 using DataAccess.Repositories;
@@ -41,6 +40,7 @@ public class AdminService : IAdminService
         _movieRepository.Save();
         _movieGenreRepository.Save();
     }
+
     public void AddMovie(MovieAndGenres movieAndGenres)
     {
         if (movieAndGenres.Movie.Name == null || movieAndGenres.Movie.PosterUrl == null || movieAndGenres.Movie.Description == null 
@@ -69,6 +69,7 @@ public class AdminService : IAdminService
         }
         _movieGenreRepository.Save();
     }
+
     public async Task AddSearchMovie(MovieSearchItem movie)
     {
         var newMovie = new Movie
@@ -93,4 +94,5 @@ public class AdminService : IAdminService
 
         await _tmdbRepository.SaveMovieGenresToDatabaseAsync(newMovie);
     }
+
 }

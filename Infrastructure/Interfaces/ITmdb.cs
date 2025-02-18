@@ -3,11 +3,7 @@ using DataAccess.Tmdb;
 
 public interface ITmdb
 {
-    public interface ITmdb
-    {
-        public Task<List<MovieSearchItem>> SearchMoviesAsync(string query);
-        public Task<MovieSearchItem> GetMovieDetailsAsync(int movieId);
-        public Task SaveMovieGenresToDatabaseAsync(Movie movie);
-
-    }
+    public Task<List<MovieSearchItem>> SearchMoviesAsync(string query);
+    public Task<MovieSearchItem> GetMovieDetailsAsync(int movieId);
+    public Task SaveMovieGenresToDatabaseAsync(Movie movie);
 }

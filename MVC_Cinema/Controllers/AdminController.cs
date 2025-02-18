@@ -18,7 +18,6 @@ public class AdminController : Controller
     private readonly TmdbRepository _tmdbRepository;
     private readonly AdminService _adminService;
     
-
     public AdminController(AppDbContext context, TmdbRepository tmdbRepository, AdminService adminService)
     {
         _context = context;
@@ -26,7 +25,6 @@ public class AdminController : Controller
         _adminService = adminService;
     }
     
-
     public IActionResult Movies()
     {
         var movies = _context.Movies.ToList();
@@ -90,6 +88,7 @@ public class AdminController : Controller
 
         return View(movieDetails);
     }
+
     public IActionResult AddMovie(MovieAndGenres movieAndGenres)
     {
         _adminService.AddMovie(movieAndGenres);
@@ -111,6 +110,7 @@ public class AdminController : Controller
         };
         return View(MovieSessions);
     }
+
     public IActionResult SelectSession(int id)
     {
         var session = _context.Sessions.Find(id);
@@ -158,6 +158,7 @@ public class AdminController : Controller
         _context.SaveChanges();
         return RedirectToAction("Sessions");
     }
+
     public IActionResult Session()
     {
         return View("AddSession", new SessionMoviesViewModel { Movies = _context.Movies.ToList(), Session = new Session() });
@@ -169,4 +170,5 @@ public class AdminController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
 }
