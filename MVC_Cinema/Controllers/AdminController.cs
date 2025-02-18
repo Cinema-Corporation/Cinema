@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using WebApp.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 namespace WebApp.Controllers;
 
+
+[Authorize]
 public class AdminController : Controller
 {
     private readonly AppDbContext _context;
