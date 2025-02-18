@@ -1,35 +1,33 @@
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using DataAccess.Entities;
+using DataAccess.Entities.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+namespace DataAccess.Data;
 
-namespace DataAccess.Data
+public class AppDbContext : IdentityDbContext
 {
-    public class AppDbContext : DbContext
+    public AppDbContext(DbContextOptions<AppDbContext> options) 
+        : base(options) { }
+
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Hall> Halls { get; set; }
+    public DbSet<Movie> Movies { get; set; }
+    public DbSet<MovieGenre> MovieGenres { get; set; }
+    public DbSet<Placement> Placements { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        base.OnModelCreating(modelBuilder);
 
-        public DbSet<User> Users { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                modelBuilder.Entity<User>().HasKey(entity => entity.UserId);
-            });
-        }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var rootPath = Directory.GetParent(Environment.CurrentDirectory)?.FullName;
-            var filePath = Path.Combine(rootPath!, "Infrastructure", "Data", "configDb.json");
-            var json = File.ReadAllText(filePath);
-            var configDb = JsonConvert.DeserializeObject<ConfigDb>(json) ?? throw new InvalidDataException("ConfigDb deserialization failed.");
-
-            var serverVersion = new MySqlServerVersion(new Version(8,0,36));
-            optionsBuilder.UseMySql(configDb.ConnectionString, serverVersion);
-        }
+        modelBuilder.ApplyConfiguration(new GenreConfiguration());
+        modelBuilder.ApplyConfiguration(new HallConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
+        modelBuilder.ApplyConfiguration(new PlacementConfiguration());
+        modelBuilder.ApplyConfiguration(new SessionConfiguration());
+        modelBuilder.ApplyConfiguration(new TicketConfiguration());
     }
 }

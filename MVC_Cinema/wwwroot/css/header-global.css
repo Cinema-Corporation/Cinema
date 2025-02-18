@@ -1,0 +1,41 @@
+﻿.navbar-collapse-custom {
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.navbar-section {
+    background-color: #212121;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 0px 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    top: 0px;
+    z-index: 1000;
+    width: calc(100% - 40px);
+}
+
+.navbar-section a {
+    color: #d236d3
+}
+
+.navbar-section a:hover {
+    color: #ffffff
+}
+
+.navbar-section a:focus {
+    color: #ffffff
+}
+
+.dropdown-menu {
+    background-color: #212121;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    margin: 20px;
+    padding: 0px;
+    min-width: 0px;
+    overflow-wrap: break-word;
+}
+
+.dropdown-menu a:hover {
+    background-color: transparent;
+}

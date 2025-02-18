@@ -1,0 +1,60 @@
+﻿@model TicketSessionMovie
+
+@{
+    ViewData["Title"] = "My Tickets";
+}
+
+<link rel="stylesheet" href="~/css/my-tickets.css" />
+
+<div class="container text-light my-tickets">
+    <h1 class="text-center mb-4">My Tickets</h1>
+    @if (Model.Tickets.Count == 0)
+    {
+        <p class="text-center text-muted">You have no tickets.</p>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var ticket in Model.Tickets)
+            {
+                var session = Model.Sessions.First(t => t.Id == ticket.SessionId);
+                var placement = Model.Placements.First(p => p.Id == ticket.PlaceId);
+                var movie = Model.Movies.First(m => m.Id == session.MovieId);
+                var luxe = placement.Luxe ? "Luxe" : "Standard";
+
+                <div class="col">
+                    <div class="card my-2 shadow-sm" style="max-width: 540px; padding-left: 20px;">
+                        <div class="row g-0">
+                            <!-- Movie Poster -->
+                            <div class="col-md-4 d-flex align-items-center justify-content-center p-2">
+                                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterUrl}")"
+                                     class="card-img-top rounded-top"
+                                     alt="@movie.Name"
+                                     width="200"
+                                     height="300"
+                                     style="object-fit: contain; border-radius: 10px">
+                            </div>
+                            <!-- Ticket Info -->
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <a href="@Url.Action("Details", "Movies", new { id = movie.Id })" class="text-decoration-none text-light">
+                                        <h5 class="card-title fw-bold">@movie?.Name</h5>
+                                    </a>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Price:</strong> <span class="badge custom-badge mb-1">@ticket.Price.ToString("0.00")₴</span></li>
+                                        <li><strong>Start:</strong> <span class="badge custom-badge mb-1">@session?.TimeStart.ToString("dd.MM.yyyy HH:mm")</span></li>
+                                        <li><strong>End:</strong> <span class="badge custom-badge mb-1">@session?.TimeEnd.ToString("dd.MM.yyyy HH:mm")</span></li>
+                                        <li><strong>Hall:</strong> <span class="badge custom-badge mb-1">@session?.HallId</span></li>
+                                        <li><strong>Row:</strong> <span class="badge custom-badge mb-1">@placement.Row</span></li>
+                                        <li><strong>Place:</strong> <span class="badge custom-badge mb-1">@placement.Column</span></li>
+                                        <li><strong>Type:</strong> <span class="badge custom-badge mb-1">@luxe</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

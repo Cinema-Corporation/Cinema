@@ -1,0 +1,51 @@
+﻿@model DataAccess.Tmdb.MovieSearchItem
+
+@{
+    ViewData["Title"] = "Movie Details";
+
+    var trailer = Model.MovieTrailerResult?.Results?
+        .FirstOrDefault(v => v.Type == "Trailer" && v.Site == "YouTube")?.Key;
+}
+
+<link rel="stylesheet" href="~/css/movie-details.css" />
+
+<div class="container text-light movie-details">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="poster-box">
+                <img class="poster" src="https://image.tmdb.org/t/p/w500/@Model.PosterPath" alt="@Model.Title Poster">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="title-box mb-4">
+                <h1 class="display-4 movie-title">@Model.Title</h1>
+                <p class="lead text-muted">@Model.Description</p>
+            </div>
+            <div class="info-box mb-4">
+                <p><strong>Rating:</strong> <span class="badge custom-badge">@Model.Rating</span></p>
+                    <p><strong>Duration:</strong> <span class="badge custom-badge">@(Model.Duration)m</span></p>
+                    <p><strong>Status: </strong><span class="badge custom-badge">@Model.Status</span></p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.TrailerUrl))
+            {
+                <div class="trailer-box pb-4">
+                    <h3 class="h5 trailer-title">Trailer</h3>
+                    <iframe class="trailer" src="https://www.youtube.com/embed/@trailer" frameborder="0" allowfullscreen></iframe>
+                </div>
+            }
+            <form asp-action="AddSearchMovie" asp-controller="Admin">
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="Title" value="@Model.Title" />
+                <input type="hidden" asp-for="PosterPath" value="@Model.PosterPath" />
+                <input type="hidden" asp-for="Description" value="@Model.Description" />
+                <input type="hidden" asp-for="Rating" value="@Model.Rating" />
+                <input type="hidden" asp-for="Duration" value="@Model.Duration" />
+                <input type="hidden" asp-for="Status" value="@Model.Status" />
+                <input type="hidden" asp-for="TrailerUrl" value="@trailer" />
+                <a href="/Admin/SearchMovie" class="btn btn-primary" style="max-width: 150px">Back to Search</a>
+                <button type="submit" class="btn btn-primary" style="max-width: 150px">Add to Movies</button>
+            </form>
+        </div>
+    </div>
+</div>
