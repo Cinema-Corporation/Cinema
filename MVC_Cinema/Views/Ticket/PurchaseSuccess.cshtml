@@ -11,7 +11,7 @@
             <p><strong>Ticket ID: </strong><span class="badge custom-badge">@Model.TicketId</span></p>
             <p><strong>Session ID: </strong><span class="badge custom-badge">@Model.SessionId</span></p>
             <p><strong>Place ID: </strong><span class="badge custom-badge">@Model.PlaceId</span></p>
-            <p><strong>Price: </strong><span class="badge custom-badge">@Model.Price₴</span></p>
+            <p><strong>Price: </strong><span class="badge custom-badge">@Model.Price.ToString("0.00")₴</span></p>
             <p><strong>Payment Date: </strong><span class="badge custom-badge">@Model.PaymentDate</span></p>
         </div>
     </form>
