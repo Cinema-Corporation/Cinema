@@ -2,36 +2,44 @@ using DataAccess.Data;
 using BusinessLogic.DTOs;
 using DataAccess.Tmdb;
 using DataAccess.Repositories;
+using DataAccess.Interfaces;
+using DataAccess.Entities;
+using BusinessLogic.Interfaces;
 namespace BusinessLogic.Services;
 
-public class AdminService
+public class AdminService : IAdminService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<Movie> _movieRepository;
+    private readonly IRepository<MovieGenre> _movieGenreRepository;
     private readonly TmdbRepository _tmdbRepository;
 
-    public AdminService(AppDbContext context, TmdbRepository tmdbRepository)
+    public AdminService(IRepository<Movie> movieRepository, IRepository<MovieGenre> movieGenreRepository, TmdbRepository tmdbRepository)
     {
-        _context = context;
+        _movieRepository = movieRepository;
+        _movieGenreRepository = movieGenreRepository;
         _tmdbRepository = tmdbRepository;
     }
 
     public void DeleteMovie(int movieId)
     {
-        var movie = _context.Movies.Find(movieId);
+        var movie = _movieRepository
+            .GetAll()
+            .FirstOrDefault(m => m.Id == movieId);
         if (movie == null)
         {
             throw new Exception("Movie not found");
         }
 
-        var movieGenres = _context.MovieGenres.Where(mg => mg.MovieId == movieId).ToList();
+        var movieGenres = _movieGenreRepository.GetAll().Where(mg => mg.MovieId == movieId).ToList();
 
         foreach (var movieGenre in movieGenres)
         {
-            _context.MovieGenres.Remove(movieGenre);
+            _movieGenreRepository.Delete(movieGenre);
         }
 
-        _context.Movies.Remove(movie);
-        _context.SaveChanges();
+        _movieRepository.Delete(movie);
+        _movieRepository.Save();
+        _movieGenreRepository.Save();
     }
     public void AddMovie(MovieAndGenres movieAndGenres)
     {
@@ -41,8 +49,8 @@ public class AdminService
             throw new ArgumentException("Invalid movie data.");
         }
 
-        _context.Movies.Add(movieAndGenres.Movie);
-        _context.SaveChanges();
+        _movieRepository.Insert(movieAndGenres.Movie);
+        _movieRepository.Save();
 
         if (movieAndGenres.MovieGenres.Count == 0)
         {
@@ -57,14 +65,13 @@ public class AdminService
         foreach (var genre in uniqueGenres)
         {
             genre.MovieId = movieId;
+            _movieGenreRepository.Insert(genre);
         }
-
-        _context.AddRange(uniqueGenres);
-        _context.SaveChanges();
+        _movieGenreRepository.Save();
     }
     public async Task AddSearchMovie(MovieSearchItem movie)
     {
-        var newMovie = new DataAccess.Entities.Movie
+        var newMovie = new Movie
         {
             Id = movie.Id,
             Name = movie.Title,
@@ -81,8 +88,8 @@ public class AdminService
             throw new ArgumentException("Invalid movie data.");
         }
 
-        _context.Movies.Add(newMovie);
-        _context.SaveChanges();
+        _movieRepository.Insert(newMovie);
+        _movieRepository.Save();
 
         await _tmdbRepository.SaveMovieGenresToDatabaseAsync(newMovie);
     }

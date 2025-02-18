@@ -1,24 +1,58 @@
 using DataAccess.Data;
-using WebApp.Models;
 using WebApp.ViewModels;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using BusinessLogic.Interfaces;
+using System.Security.Claims;
 namespace WebApp.Controllers;
 
+[Authorize]
 public class TicketController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public TicketController(AppDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    private readonly ITicketService _ticketService;
+
+    public TicketController(AppDbContext context,
+        UserManager<IdentityUser> userManager,
+        ITicketService ticketService)
     {
         _context = context;
         _userManager = userManager;
-        _signInManager = signInManager;
+        _ticketService = ticketService;
     }
-    public async Task<IActionResult> Index()
+
+    public IActionResult ChooseSeat(int sessionId)
+    {
+        var availableSeats = _ticketService.GetAvailablePlacementsForSession(sessionId);
+        ViewBag.SessionId = sessionId;
+        return View(availableSeats);
+    }
+
+    [HttpPost]
+    public IActionResult BuySeat(int sessionId, int placeId)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var ticket = _ticketService.BuyTicket(sessionId, placeId, userId);
+
+        return RedirectToAction("PurchaseSuccess", new { ticketId = ticket.TicketId });
+    }
+
+    public IActionResult PurchaseSuccess(int ticketId)
+    {
+        var ticket = _ticketService.GetTicketById(ticketId);
+        if (ticket == null)
+        {
+            return NotFound();
+        }
+
+        return View(ticket);
+    }
+
+    public async Task<IActionResult> MyTickets()
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null)

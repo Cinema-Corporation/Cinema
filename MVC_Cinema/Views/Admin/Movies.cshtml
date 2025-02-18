@@ -3,16 +3,19 @@
     ViewData["Title"] = "Movies";
 }
 
-<a class="btn btn-primary" style="margin-bottom: 5px;" asp-action="Movie" asp-controller="Admin">Add movie</a>
-<a class="btn btn-primary" style="margin-bottom: 5px;" asp-action="Search" asp-controller="Admin">Search movie</a>
-
-<div class="row">
-    @foreach (var movie in Model)
-    {
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <a asp-action="SelectMovie" asp-controller="Admin" asp-route-MovieId="@movie.Id">@movie.Name</a>
+<div class="container text-light movies-section" style="width: calc(100% - 40px)">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" style="margin: 10px;" asp-action="Movie" asp-controller="Admin">Add Movie</a>
+        <a class="btn btn-primary" style="margin: 10px;" asp-action="Search" asp-controller="Admin">Search Movie</a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var movie in Model)
+        {
+            <div class="col-md-4">
+                 <div class="card my-2 shadow-sm" style="max-width: 540px; padding-left: 20px;">
+                    <a class="hyperlink-admin" asp-action="SelectMovie" asp-controller="Admin" asp-route-MovieId="@movie.Id">@movie.Name</a>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

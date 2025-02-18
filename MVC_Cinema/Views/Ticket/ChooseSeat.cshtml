@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BusinessLogic.DTOs.PlacementDTO>
+    
+@{
+    ViewData["Title"] = "Choose Seat";
+    var sessionId = ViewBag.SessionId as int?;
+}
+
+<div class="container movies-section" style="max-width: calc(100% - 40px);">
+    <h2 class="text-center">Choose a Seat</h2>
+    @if (Model == null || !Model.Any())
+    {
+        <p>No available seats for this session.</p>
+    }
+    else
+    {
+        <table class="table text-light">
+            <thead>
+                <tr>
+                    <th><strong>Row</strong></th>
+                    <th><strong>Place</strong></th>
+                    <th><strong>Type</strong></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var seat in Model)
+                {
+                    var luxe = seat.Luxe ? "Luxe" : "Standard";
+                    <tr>
+                        <td><span class="badge custom-badge">@seat.Row</span></td>
+                        <td><span class="badge custom-badge">@seat.Column</span></td>
+                        <td><span class="badge custom-badge">@luxe</span></td>
+                        <td>
+                            <form asp-action="BuySeat" method="post">
+                                <input type="hidden" name="sessionId" value="@sessionId" />
+                                <input type="hidden" name="placeId" value="@seat.PlaceId" />
+                                <button type="submit" class="btn btn-primary">Buy Ticket</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

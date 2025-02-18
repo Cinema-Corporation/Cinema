@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Cinema</title>
+    <title>@ViewData["Title"] - HORIZON</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 </head>
@@ -11,9 +11,11 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-section">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Cinema</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HORIZON</a>
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ms-auto">
+                        @if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Admin
@@ -23,9 +25,13 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Sessions">Sessions</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Ticket" asp-action="Index">My Tickets</a>
-                        </li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Ticket" asp-action="MyTickets">My Tickets</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />

@@ -11,7 +11,6 @@ public class HomeController : Controller
 
     public HomeController(AppDbContext context) => _context = context;
 
-
     public IActionResult Index(string filter)
     {
         var movies = _context.Movies.ToList();
