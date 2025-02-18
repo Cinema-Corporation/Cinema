@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Data;
 using DataAccess.Interfaces;
-
 namespace DataAccess.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity

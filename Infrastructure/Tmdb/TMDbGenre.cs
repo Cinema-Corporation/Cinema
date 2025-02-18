@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
+namespace DataAccess.Tmdb;
 
-namespace DataAccess.Tmdb
+public class TMDbGenre
 {
-    public class TMDbGenre
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+    [JsonProperty("id")]
+    public int Id { get; set; }
 
-        [JsonProperty("name")]
-        public string? Name { get; set; }
-    }
+    [JsonProperty("name")]
+    public string? Name { get; set; }
 }

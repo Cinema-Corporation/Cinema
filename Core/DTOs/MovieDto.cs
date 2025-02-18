@@ -1,5 +1,3 @@
-using DataAccess.Entities;
-
 namespace BusinessLogic.DTOs;
 
 public class MovieDTO

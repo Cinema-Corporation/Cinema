@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
+namespace DataAccess.Tmdb;
 
-namespace DataAccess.Tmdb
+public class MovieRunTime
 {
-    public class MovieRunTime
-    {
-        [JsonProperty("runtime")]
-        public int Runtime { get; set; }
-    }
+    [JsonProperty("runtime")]
+    public int Runtime { get; set; }
 }

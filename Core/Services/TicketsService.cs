@@ -96,4 +96,5 @@ public class TicketService : ITicketService
         if (ticket == null) return null;
         return _mapper.Map<TicketDTO>(ticket);
     }
+    
 }
